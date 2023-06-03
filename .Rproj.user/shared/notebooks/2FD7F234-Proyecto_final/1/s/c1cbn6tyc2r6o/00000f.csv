@@ -1,0 +1,4 @@
+"0","Tabla_map1 <- data %>% group_by(employee_residence) %>% summarise(count = n())%>%"
+"0","  arrange(desc(count))"
+"0","Tabla_map2 <- data %>% group_by(company_location) %>% summarise(count = n())"
+"0","mapa <- read.csv2(""D:/Documentos sebastian/Univalle/Métodos Cuantitativos/Proyecto final/map_2022.csv"", stringsAsFactors=TRUE, na.strings = ""void"")"

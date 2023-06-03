@@ -1,0 +1,27 @@
+"0","library(dplyr)"
+"0","library(ggplot2)"
+"0","library(readr)"
+"0","library(patchwork)"
+"0","library(cowplot)"
+"0","library(easypackages)"
+"0","library(ggpubr)"
+"0","lib_req<-c(""MASS"",""visdat"",""car"",""HSAUR2"",""corrplot"",""plotrix"",""cluster"",""factoextra"", ""FactoMineR"",""scales"",""viridis"")"
+"0","easypackages::packages(lib_req) "
+"2","Loading required package: viridis
+"
+"2","Warning: package ‘viridis’ was built under R version 4.2.3"
+"2","Loading required package: viridisLite
+"
+"2","Warning: package ‘viridisLite’ was built under R version 4.2.3"
+"2","
+Attaching package: ‘viridis’
+
+"
+"2","The following object is masked from ‘package:scales’:
+
+    viridis_pal
+
+"
+"2","All packages loaded successfully
+"
+"0","theme_set(theme_pubr())"
