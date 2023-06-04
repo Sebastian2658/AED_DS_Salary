@@ -1,2 +1,0 @@
-"0","data['work_abroad'] <- ifelse(as.character(data$employee_residence) == as.character(data$company_location),1,0)"
-"0","data['work_abroad'] <- as.factor(data$work_abroad)"
