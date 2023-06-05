@@ -19,8 +19,7 @@ library(readr)
 library(patchwork)
 library(cowplot)
 library(easypackages)
-library(ggpubr)
-lib_req<-c("MASS","visdat","car","HSAUR2","corrplot","plotrix","cluster","factoextra", "FactoMineR","scales","viridis","wordcloud","RColorBrewer","wordcloud2")
+lib_req<-c("MASS","visdat","corrplot","plotrix","cluster","factoextra", "FactoMineR","scales","viridis","wordcloud","RColorBrewer","wordcloud2","ggpubr","vcd")
 easypackages::packages(lib_req) 
 ```
 
@@ -149,6 +148,13 @@ g_6
 ```
 
 ```{r}
+vars <- colnames(data)
+catcorrm <- function(vars, data) sapply(vars, function(y) sapply(vars, function(x) assocstats(table(data[,x], data[,y]))$cramer))
+
+corrplot(catcorrm(vars, data), type = "upper", method = "ellipse",diag=FALSE)
+```
+
+```{r}
 map1 <- left_join(mapa, Tabla_map1, by=c("ISO2"="employee_residence"))
 
 map <- ggplot(map1)
@@ -181,6 +187,8 @@ bp <- bp + theme_classic()
 bp
 ```
 
+```{r}
+```
 
 ```{r}
 Tabla_map3 <- data %>% group_by(company_location) %>% summarise(mean = mean(salary_in_usd),min = min(salary_in_usd),max = max(salary_in_usd))%>%arrange(desc(mean))
@@ -214,6 +222,17 @@ map <- map + labs(title = "Maximum salary", subtitle = "Maximum salary by contri
 map_max <- map + theme(text = element_text(color = "#22211d"), plot.background = element_rect(fill = "#f5f5f2", color = NA), panel.background = element_rect(fill = "#f5f5f2", color = NA), legend.background = element_rect(fill = "#f5f5f2", color = NA),  plot.title = element_text(size= 18, hjust=0.01, color = "#4e4d47", margin = margin(b = -0.1, t = 0.4, l = 2, unit = "cm")), plot.subtitle = element_text(size= 14, hjust=0.01, color = "#4e4d47", margin = margin(b = -0.1, t = 0.43, l = 2, unit = "cm")), legend.position = c(0.7, 0.09))
 
 ggarrange(map_mean,map_min,map_max,ncol = 2, nrow = 2)
+```
+
+```{r, fig.width= 8, fig.height=4}
+bp <- ggplot(data,aes(x=work_year, y=salary_in_usd,fill=experience_level))+geom_boxplot()
+bp <- bp + scale_y_continuous(name="salary (USD)",labels = label_number(suffix = "K", scale = 1e-3),breaks = breaks_width(100000), limits=c(0, 460000))
+bp <- bp + labs(title = "Distribution on gross Salari paid")
+bp <- bp + theme_classic()
+bp
+#variables_x <- list("experience_level", "employment_type", "remote_ratio","company_size","salary_currency","work_abroad")
+
+#ggarrange(plotlist = graficos, nrow = 2, ncol = 3)
 ```
 
 
