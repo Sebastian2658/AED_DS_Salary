@@ -6,7 +6,7 @@ always_allow_html: true
 output:
   html_document: default
   pdf_document: default
-Datos extradisos de Kaggle: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
+
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -19,19 +19,30 @@ library(readr)
 library(patchwork)
 library(cowplot)
 library(easypackages)
-lib_req<-c("MASS","visdat","corrplot","plotrix","cluster","factoextra", "FactoMineR","scales","viridis","wordcloud","RColorBrewer","wordcloud2","ggpubr","vcd")
+lib_req<-c("MASS","visdat","corrplot","plotrix","cluster","factoextra", "FactoMineR","scales","viridis","wordcloud","RColorBrewer","wordcloud2","ggpubr","vcd","car")
 easypackages::packages(lib_req) 
 ```
 
+
+#Datos extradisos de Kaggle: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
 experience_level has 4 Level:
+
 EN > Entry-level / Junior
+
 MI > Mid-level / Intermediate
+
 SE > Senior-level / Expert
+
 EX > Executive-level / Director
+
 employment_type has 4 types:
+
 PT > Part-time
+
 FT > Full-time
+
 CT > Contract
+
 FL > Freelance
 
 
@@ -43,14 +54,19 @@ summary(data)
 
 ```{r}
 unique(data$work_year)
+```
 # como se identifica que no son numeros si no años los datos de la columna work_year se decide cambiar los valores a tipo factor
+```{r}
 data$work_year = factor(data$work_year)
 
 unique(data$remote_ratio)
+```
 # En la columna remote_ratio tambien se trata de solo 3 datos para referirse al trabajo remoto se decide cambiar estos datos numericos por facort dejandoloasi:
 #remote = re = 100
 #hybrid = hy = 50
 #presential = pr = 0
+
+```{r}
 
 data$remote_ratio[data$remote_ratio==100] <- 'RE'
 data$remote_ratio[data$remote_ratio==50] <- 'HY'
@@ -148,10 +164,10 @@ g_6
 ```
 
 ```{r}
-vars <- colnames(data)
+vars <- colnames(data[,-c(6)])
 catcorrm <- function(vars, data) sapply(vars, function(y) sapply(vars, function(x) assocstats(table(data[,x], data[,y]))$cramer))
 
-corrplot(catcorrm(vars, data), type = "upper", method = "ellipse",diag=FALSE)
+corrplot(catcorrm(vars, data[,-c(6)]), type = "upper", method = "ellipse",diag=FALSE)
 ```
 
 ```{r}
@@ -179,15 +195,39 @@ ggarrange(map_1,map_2,ncol = 2, nrow = 1)
 ```
 
 
-```{r, fig.width=4, fig.height=3.5}
+```{r, fig.width=12, fig.height=8}
 bp <- ggplot(data,aes(x=work_year, y=salary_in_usd,fill=work_year))+geom_boxplot()
 bp <- bp + scale_y_continuous(name="salary (USD)",labels = label_number(suffix = "K", scale = 1e-3),breaks = breaks_width(100000), limits=c(0, 460000))
-bp <- bp + labs(title = "Distribution on gross Salari paid")
-bp <- bp + theme_classic()
-bp
-```
+bp <- bp + labs(title = "Distribution on gross Salari paid", subtitle = "Distribution on gross Salari paid per year worked")
+bp_1 <- bp + theme(legend.position="none")
 
-```{r}
+bp <- ggplot(data,aes(x=experience_level, y=salary_in_usd,fill=experience_level))+geom_boxplot()
+bp <- bp + scale_y_continuous(name="salary (USD)",labels = label_number(suffix = "K", scale = 1e-3),breaks = breaks_width(100000), limits=c(0, 460000))
+bp <- bp + labs(title = "Distribution on gross Salari paid", subtitle = "Distribution on gross Salari paid by experience level of worker")
+bp_2 <- bp + theme(legend.position="none")
+
+bp <- ggplot(data,aes(x=employment_type, y=salary_in_usd,fill=employment_type))+geom_boxplot()
+bp <- bp + scale_y_continuous(name="salary (USD)",labels = label_number(suffix = "K", scale = 1e-3),breaks = breaks_width(100000), limits=c(0, 460000))
+bp <- bp + labs(title = "Distribution on gross Salari paid", subtitle = "Distribution on gross Salari paid by type of employment")
+bp_3 <- bp + theme(legend.position="none")
+
+bp <- ggplot(data,aes(x=remote_ratio, y=salary_in_usd,fill=remote_ratio))+geom_boxplot()
+bp <- bp + scale_y_continuous(name="salary (USD)",labels = label_number(suffix = "K", scale = 1e-3),breaks = breaks_width(100000), limits=c(0, 460000))
+bp <- bp + labs(title = "Distribution on gross Salari paid", subtitle = "Distribution on gross Salari paid by remote_ratio")
+bp_4 <- bp + theme(legend.position="none")
+
+bp <- ggplot(data,aes(x=company_size, y=salary_in_usd,fill=company_size))+geom_boxplot()
+bp <- bp + scale_y_continuous(name="salary (USD)",labels = label_number(suffix = "K", scale = 1e-3),breaks = breaks_width(100000), limits=c(0, 460000))
+bp <- bp + labs(title = "Distribution on gross Salari paid", subtitle = "Distribution on gross Salari paid by company size")
+bp_5 <- bp + theme(legend.position="none")
+
+bp <- ggplot(data,aes(x=work_abroad, y=salary_in_usd,fill=work_abroad))+geom_boxplot()
+bp <- bp + scale_y_continuous(name="salary (USD)",labels = label_number(suffix = "K", scale = 1e-3),breaks = breaks_width(100000), limits=c(0, 460000))
+bp <- bp + labs(title = "Distribution on gross Salari paid", subtitle = "Distribution on gross Salari paid by company size")
+bp_6 <- bp + theme(legend.position="none")
+
+
+ggarrange(bp_1,bp_2,bp_3,bp_4,bp_5,bp_6,ncol = 3, nrow = 2)
 ```
 
 ```{r}
@@ -235,5 +275,70 @@ bp
 #ggarrange(plotlist = graficos, nrow = 2, ncol = 3)
 ```
 
+```{r}
+# extraemos de nuevo los datos para no trabajr con factores
+data <- read.csv("D:/Documentos sebastian/Univalle/Métodos Cuantitativos/Proyecto final/ds_salaries.csv")
+data$remote_ratio[data$remote_ratio==100] <- 'RE'
+data$remote_ratio[data$remote_ratio==50] <- 'HY'
+data$remote_ratio[data$remote_ratio==0] <- 'PR'
+data = subset(data, select = -salary)
+data['work_abroad'] <- ifelse(as.character(data$employee_residence) == as.character(data$company_location),FALSE,TRUE)
+
+summary(data)
+
+
+formula_sat = as.formula(salary_in_usd~.);    
+Model_sat = lm(formula_sat,data  = data)
+summary(Model_sat)
+
+anova(Model_sat)
+
+AIC(Model_sat)
+
+Model_ASR=lm(salary_in_usd ~1+ work_year + experience_level + employment_type+ job_title + salary_currency + employee_residence + remote_ratio + company_location + company_size + work_abroad,data=data)
+ASR = olsrr::ols_step_all_possible(Model_ASR)
+```
+
+```{r, fig.width= 10, fig.height=8}
+windows()
+plot(ASR)
+```
+```{r}
+ASR[176,]$predictors
+ASR[176,]$aic
+ASR[176,]$rsquare
+ASR[176,]$adjr
+```
+```{r}
+ASR[387,]$predictors
+ASR[387,]$aic
+ASR[387,]$rsquare
+ASR[387,]$adjr
+```
+```{r}
+ASR[56,]$predictors
+ASR[56,]$aic
+ASR[56,]$rsquare
+ASR[56,]$adjr
+```
+```{r}
+formula_null = as.formula(salary_in_usd~1)
+Model_null = lm(formula_null,data  = data)
+
+Model_bw = step(Model_sat, direction='backward', scope=formula_null)
+
+summary(Model_bw)
+
+anova(Model_bw)
+AIC(Model_bw)
+
+Last_model =lm(salary_in_usd ~ experience_level + job_title + salary_currency + employee_residence+ company_size,data=data)
+
+anova(Last_model)
+AIC(Last_model)
+
+anova(Model_null,Model_sat,Last_model,Model_bw)
+
+```
 
 
