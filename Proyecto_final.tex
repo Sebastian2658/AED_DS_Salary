@@ -65,16 +65,77 @@
 
 \title{Proyecto\_final\_DS\_Salaries}
 \author{Juan Sebastian Oviedo Valencia}
-\date{2023-06-03}
+\date{2023-06-05}
 
 \begin{document}
 \maketitle
 
-experience\_level has 4 Level: EN \textgreater{} Entry-level / Junior MI
-\textgreater{} Mid-level / Intermediate SE \textgreater{} Senior-level /
-Expert EX \textgreater{} Executive-level / Director employment\_type has
-4 types: PT \textgreater{} Part-time FT \textgreater{} Full-time CT
-\textgreater{} Contract FL \textgreater{} Freelance
+\#Fuente de datos La base de datos utilizada contiene información de
+Salarios de puestos relacionados con cientificos de datos alrededor
+mundo, para, los datos son extraidos de una fuente de datas en kaggle
+{[}Data Science Salaries 2023{]}
+(\url{https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023}).
+
+El fin de usar esta base de datos es tener una vision del mercado
+laboral mundial y las oportunidades que nos esperan en el futuro, a la
+vez poer medio de este contrar un modelo lineal que nos permita generar
+un modelo que prediga los datos de salarios.
+
+En los datos encontramos 11 Colunmnas: - ``work\_year'', correspode al
+año donde se registro se obtuvo el registro. - ``experience\_level'',
+corresponde al nivel de experiencia del trabajado. -
+``employment\_type'',corresponde al tipo de contrato que tiene el
+trabajado. - ``job\_title'', es el nombre del cargo del trabajador. -
+``salary'', es el salario neto al año. - ``salary\_currency'',
+corresponde a la moneda en la que se debenga el salario. -
+``salary\_in\_usd'', es la conversión del salario a dolares
+estadounidenses - ``employee\_residence'', es el país donde se encuentra
+el trabajador. - ``remote\_ratio'', corresponde a la tasa de trabajo que
+se realiza en remoto - ``company\_location'': es el país donde se
+encuentra la compañia que ofrece el trbajo. - ``company\_size'', es el
+tamaño de la compañia que ofrece el trabajo
+
+\#\#siglas usadas Algunas de lassiglas usadas en la fuente de datos son:
+
+\textbf{Clasificación del Profesional}
+
+\begin{itemize}
+\tightlist
+\item
+  EN: Entry-level / Junior.
+\item
+  MI: Mid-level / Intermediate.
+\item
+  SE: Senior-level / Expert.
+\item
+  EX: Executive-level / Director.
+\end{itemize}
+
+\textbf{Tipo de contrato}
+
+\begin{itemize}
+\tightlist
+\item
+  PT: Part-time
+\item
+  FT: Full-time
+\item
+  CT: Contract
+\item
+  FL: Freelance
+\end{itemize}
+
+\textbf{Tamaño de la compañia}
+
+\begin{itemize}
+\tightlist
+\item
+  L: Grande
+\item
+  M: Mediana
+\item
+  S: Pequeña
+\end{itemize}
 
 \begin{verbatim}
 ##    work_year    experience_level employment_type
@@ -111,13 +172,41 @@ Expert EX \textgreater{} Executive-level / Director employment\_type has
 ## 
 \end{verbatim}
 
+\hypertarget{resumen-de-los-datos}{%
+\subsection{\texorpdfstring{\textbf{Resumen de los
+datos}}{Resumen de los datos}}\label{resumen-de-los-datos}}
+
+Observamos que que tenemos 11 columnas, 3755 registros.
+
+Las columnas numericas son: años de experiencia, Salario
+
+Las variables categoricas son: nivel de experiecia, Tipo de contrato,
+Titulo del cargo, moneda, Residencia del empleado, Localizacion de la
+empresa y Tamaño de la empresa.
+
+\#\#Análisis exploratorio
+
 \begin{verbatim}
 ## [1] 2023 2022 2020 2021
 \end{verbatim}
 
+Comenzando con la columana ``work\_year'', se identifica que no son
+numeros si no años los datos de la columna work\_year se decide cambiar
+los valores a tipo factor \# como se identifica que no son numeros si no
+años los datos de la columna work\_year se decide cambiar los valores a
+tipo factor
+
 \begin{verbatim}
 ## [1] 100   0  50
 \end{verbatim}
+
+\hypertarget{en-la-columna-remote_ratio-tambien-se-trata-de-solo-3-datos-para-referirse-al-trabajo-remoto-se-decide-cambiar-estos-datos-numericos-por-facort-dejandoloasi}{%
+\section{En la columna remote\_ratio tambien se trata de solo 3 datos
+para referirse al trabajo remoto se decide cambiar estos datos numericos
+por facort
+dejandoloasi:}\label{en-la-columna-remote_ratio-tambien-se-trata-de-solo-3-datos-para-referirse-al-trabajo-remoto-se-decide-cambiar-estos-datos-numericos-por-facort-dejandoloasi}}
+
+\#remote = re = 100 \#hybrid = hy = 50 \#presential = pr = 0
 
 \begin{verbatim}
 ##  work_year   experience_level employment_type                     job_title   
@@ -147,16 +236,1233 @@ Expert EX \textgreater{} Executive-level / Director employment\_type has
 \end{verbatim}
 
 \#Verificamos si hay faltantes
-\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-3-1.pdf}
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-5-1.pdf}
 
-\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-4-1.pdf}
-
-\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-7-1.pdf}
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-6-1.pdf}
 
 \includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-9-1.pdf}
 
 \includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-10-1.pdf}
 
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-12-1.pdf}
+
 \includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+\begin{verbatim}
+##    work_year    experience_level   employment_type     job_title        
+##  Min.   :2020   Length:3755        Length:3755        Length:3755       
+##  1st Qu.:2022   Class :character   Class :character   Class :character  
+##  Median :2022   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :2022                                                           
+##  3rd Qu.:2023                                                           
+##  Max.   :2023                                                           
+##  salary_currency    salary_in_usd    employee_residence remote_ratio      
+##  Length:3755        Min.   :  5132   Length:3755        Length:3755       
+##  Class :character   1st Qu.: 95000   Class :character   Class :character  
+##  Mode  :character   Median :135000   Mode  :character   Mode  :character  
+##                     Mean   :137570                                        
+##                     3rd Qu.:175000                                        
+##                     Max.   :450000                                        
+##  company_location   company_size       work_abroad    
+##  Length:3755        Length:3755        Mode :logical  
+##  Class :character   Class :character   FALSE:3659     
+##  Mode  :character   Mode  :character   TRUE :96       
+##                                                       
+##                                                       
+## 
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = formula_sat, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -129643  -28616   -4375   22815  378157 
+## 
+## Coefficients: (37 not defined because of singularities)
+##                                                     Estimate Std. Error t value
+## (Intercept)                                       -7.804e+06  2.779e+06  -2.808
+## work_year                                          3.846e+03  1.375e+03   2.796
+## experience_levelEX                                 8.525e+04  5.813e+03  14.665
+## experience_levelMI                                 2.188e+04  3.516e+03   6.222
+## experience_levelSE                                 4.448e+04  3.299e+03  13.485
+## employment_typeFL                                 -2.371e+04  3.003e+04  -0.789
+## employment_typeFT                                  2.037e+03  1.885e+04   0.108
+## employment_typePT                                 -1.464e+04  2.448e+04  -0.598
+## job_titleAI Developer                              9.116e+04  5.342e+04   1.706
+## job_titleAI Programmer                            -3.614e+04  6.858e+04  -0.527
+## job_titleAI Scientist                              2.594e+04  5.161e+04   0.503
+## job_titleAnalytics Engineer                        6.648e+03  5.014e+04   0.133
+## job_titleApplied Data Scientist                    4.112e+04  5.299e+04   0.776
+## job_titleApplied Machine Learning Engineer         1.781e+04  6.112e+04   0.291
+## job_titleApplied Machine Learning Scientist        3.072e+04  5.251e+04   0.585
+## job_titleApplied Scientist                         3.890e+04  5.043e+04   0.771
+## job_titleAutonomous Vehicle Technician             1.713e+04  8.391e+04   0.204
+## job_titleAzure Data Engineer                      -2.638e+04  7.028e+04  -0.375
+## job_titleBI Analyst                               -4.941e+03  5.250e+04  -0.094
+## job_titleBI Data Analyst                          -1.036e+04  5.168e+04  -0.200
+## job_titleBI Data Engineer                         -5.069e+04  6.845e+04  -0.741
+## job_titleBI Developer                             -1.796e+04  5.161e+04  -0.348
+## job_titleBig Data Architect                        2.692e+04  6.000e+04   0.449
+## job_titleBig Data Engineer                         1.970e+04  5.292e+04   0.372
+## job_titleBusiness Data Analyst                    -1.657e+04  5.146e+04  -0.322
+## job_titleBusiness Intelligence Engineer            1.868e+04  5.509e+04   0.339
+## job_titleCloud Data Architect                      9.991e+04  6.828e+04   1.463
+## job_titleCloud Data Engineer                       5.804e+04  6.736e+04   0.862
+## job_titleCloud Database Engineer                   6.593e+02  5.414e+04   0.012
+## job_titleCompliance Data Analyst                  -8.086e+04  7.253e+04  -1.115
+## job_titleComputer Vision Engineer                  4.227e+04  5.112e+04   0.827
+## job_titleComputer Vision Software Engineer         1.203e+04  5.689e+04   0.211
+## job_titleData Analyst                             -2.468e+04  4.994e+04  -0.494
+## job_titleData Analytics Consultant                -1.924e+04  6.841e+04  -0.281
+## job_titleData Analytics Engineer                   9.423e+01  5.446e+04   0.002
+## job_titleData Analytics Lead                       2.502e+05  6.843e+04   3.656
+## job_titleData Analytics Manager                   -5.748e+03  5.092e+04  -0.113
+## job_titleData Analytics Specialist                -6.047e+04  5.980e+04  -1.011
+## job_titleData Architect                            9.779e+03  5.015e+04   0.195
+## job_titleData DevOps Engineer                     -3.256e+03  6.903e+04  -0.047
+## job_titleData Engineer                             3.313e+03  4.995e+04   0.066
+## job_titleData Infrastructure Engineer              3.485e+04  5.342e+04   0.652
+## job_titleData Lead                                 5.703e+04  5.980e+04   0.954
+## job_titleData Management Specialist               -1.431e+04  7.524e+04  -0.190
+## job_titleData Manager                             -2.071e+04  5.069e+04  -0.408
+## job_titleData Modeler                             -3.657e+04  5.980e+04  -0.611
+## job_titleData Operations Analyst                  -6.091e+04  5.507e+04  -1.106
+## job_titleData Operations Engineer                 -4.011e+04  5.202e+04  -0.771
+## job_titleData Quality Analyst                     -6.378e+04  5.307e+04  -1.202
+## job_titleData Science Consultant                  -1.480e+04  5.096e+04  -0.290
+## job_titleData Science Engineer                    -1.524e+04  5.443e+04  -0.280
+## job_titleData Science Lead                         2.607e+04  5.256e+04   0.496
+## job_titleData Science Manager                      4.633e+04  5.030e+04   0.921
+## job_titleData Science Tech Lead                    2.211e+05  6.830e+04   3.237
+## job_titleData Scientist                            9.235e+03  4.995e+04   0.185
+## job_titleData Scientist Lead                       3.524e+04  6.080e+04   0.580
+## job_titleData Specialist                          -2.489e+04  5.158e+04  -0.483
+## job_titleData Strategist                          -6.923e+04  6.012e+04  -1.152
+## job_titleDeep Learning Engineer                    2.322e+03  5.348e+04   0.043
+## job_titleDeep Learning Researcher                  1.794e+04  6.902e+04   0.260
+## job_titleDirector of Data Science                  5.300e+04  5.212e+04   1.017
+## job_titleETL Developer                            -9.171e+02  5.209e+04  -0.018
+## job_titleETL Engineer                             -9.651e+03  5.994e+04  -0.161
+## job_titleFinance Data Analyst                     -3.667e+04  6.842e+04  -0.536
+## job_titleFinancial Data Analyst                   -2.319e+04  5.676e+04  -0.409
+## job_titleHead of Data                              5.365e+04  5.299e+04   1.012
+## job_titleHead of Data Science                      1.574e+04  5.242e+04   0.300
+## job_titleHead of Machine Learning                 -1.651e+04  6.803e+04  -0.243
+## job_titleInsight Analyst                          -3.455e+04  5.993e+04  -0.577
+## job_titleLead Data Analyst                        -2.178e+04  5.389e+04  -0.404
+## job_titleLead Data Engineer                        3.699e+04  5.583e+04   0.663
+## job_titleLead Data Scientist                       2.485e+04  5.231e+04   0.475
+## job_titleLead Machine Learning Engineer            1.665e+04  5.674e+04   0.293
+## job_titleMachine Learning Developer                1.247e+03  5.535e+04   0.023
+## job_titleMachine Learning Engineer                 2.284e+04  5.002e+04   0.457
+## job_titleMachine Learning Infrastructure Engineer  3.226e+04  5.191e+04   0.621
+## job_titleMachine Learning Manager                  2.472e+04  5.673e+04   0.436
+## job_titleMachine Learning Research Engineer       -9.580e+03  5.508e+04  -0.174
+## job_titleMachine Learning Researcher               9.791e+03  5.360e+04   0.183
+## job_titleMachine Learning Scientist                4.020e+04  5.089e+04   0.790
+## job_titleMachine Learning Software Engineer        6.185e+04  5.234e+04   1.182
+## job_titleManager Data Management                  -2.985e+04  6.843e+04  -0.436
+## job_titleMarketing Data Analyst                    1.035e+05  7.008e+04   1.477
+## job_titleMarketing Data Engineer                   2.842e+04  7.957e+04   0.357
+## job_titleML Engineer                               2.752e+04  5.049e+04   0.545
+## job_titleMLOps Engineer                           -1.649e+03  5.507e+04  -0.030
+## job_titleNLP Engineer                              3.772e+04  5.382e+04   0.701
+## job_titlePower BI Developer                        1.682e+03  6.795e+04   0.025
+## job_titlePrincipal Data Analyst                   -4.110e+03  5.998e+04  -0.069
+## job_titlePrincipal Data Architect                 -1.481e+04  6.806e+04  -0.218
+## job_titlePrincipal Data Engineer                   4.326e+04  5.987e+04   0.723
+## job_titlePrincipal Data Scientist                  7.974e+04  5.285e+04   1.509
+## job_titlePrincipal Machine Learning Engineer       3.515e+04  6.843e+04   0.514
+## job_titleProduct Data Analyst                     -7.491e+03  5.483e+04  -0.137
+## job_titleProduct Data Scientist                    1.515e+05  9.781e+04   1.549
+## job_titleResearch Engineer                         2.960e+04  5.059e+04   0.585
+## job_titleResearch Scientist                        3.552e+04  5.022e+04   0.707
+## job_titleSoftware Data Engineer                    5.985e+03  7.983e+04   0.075
+## job_titleStaff Data Analyst                       -5.571e+04  1.143e+05  -0.487
+## job_titleStaff Data Scientist                     -4.045e+04  7.063e+04  -0.573
+## salary_currencyBRL                                 5.136e+04  5.369e+04   0.957
+## salary_currencyCAD                                 3.017e+04  4.897e+04   0.616
+## salary_currencyCHF                                 1.041e+05  1.001e+05   1.040
+## salary_currencyCLP                                -3.790e+04  1.018e+05  -0.372
+## salary_currencyCZK                                 1.259e+04  8.395e+04   0.150
+## salary_currencyDKK                                 1.314e+05  1.210e+05   1.086
+## salary_currencyEUR                                 3.570e+04  4.857e+04   0.735
+## salary_currencyGBP                                 6.645e+04  4.960e+04   1.340
+## salary_currencyHKD                                 2.793e+04  1.020e+05   0.274
+## salary_currencyHUF                                 5.589e+04  9.421e+04   0.593
+## salary_currencyILS                                 5.582e+05  1.344e+05   4.155
+## salary_currencyINR                                 1.499e+04  5.089e+04   0.294
+## salary_currencyJPY                                 1.658e+04  6.131e+04   0.270
+## salary_currencyMXN                                 3.936e+04  6.889e+04   0.571
+## salary_currencyPLN                                -2.074e+04  8.506e+04  -0.244
+## salary_currencySGD                                -2.084e+04  8.422e+04  -0.247
+## salary_currencyTHB                                 5.883e+04  7.647e+04   0.769
+## salary_currencyTRY                                 8.248e+04  6.371e+04   1.295
+## salary_currencyUSD                                 8.090e+04  4.738e+04   1.708
+## employee_residenceAM                              -3.377e+04  5.410e+04  -0.624
+## employee_residenceAR                              -1.499e+04  7.292e+04  -0.206
+## employee_residenceAS                              -4.711e+04  1.030e+05  -0.457
+## employee_residenceAT                               1.030e+04  7.878e+04   0.131
+## employee_residenceAU                               3.974e+04  8.250e+04   0.482
+## employee_residenceBA                              -9.018e+03  5.755e+04  -0.157
+## employee_residenceBE                               6.175e+04  9.642e+04   0.640
+## employee_residenceBG                               3.081e+04  8.089e+04   0.381
+## employee_residenceBO                              -3.035e+04  7.389e+04  -0.411
+## employee_residenceBR                              -1.095e+03  7.321e+04  -0.015
+## employee_residenceCA                               4.119e+04  7.262e+04   0.567
+## employee_residenceCF                              -1.326e+04  4.572e+04  -0.290
+## employee_residenceCH                                      NA         NA      NA
+## employee_residenceCL                               7.538e+04  8.225e+04   0.917
+## employee_residenceCN                               1.344e+05  8.244e+04   1.631
+## employee_residenceCO                              -2.467e+04  3.660e+04  -0.674
+## employee_residenceCR                              -5.400e+03  8.117e+04  -0.067
+## employee_residenceCY                               4.309e+03  5.667e+04   0.076
+## employee_residenceCZ                              -3.883e+04  5.461e+04  -0.711
+## employee_residenceDE                               3.070e+04  7.112e+04   0.432
+## employee_residenceDK                                      NA         NA      NA
+## employee_residenceDO                               7.862e+04  8.467e+04   0.929
+## employee_residenceDZ                               5.568e+04  5.674e+04   0.981
+## employee_residenceEE                              -3.373e+04  5.786e+04  -0.583
+## employee_residenceEG                              -9.195e+04  5.507e+04  -1.670
+## employee_residenceES                               3.670e+04  6.841e+04   0.537
+## employee_residenceFI                               3.091e+04  1.062e+05   0.291
+## employee_residenceFR                               2.499e+04  6.826e+04   0.366
+## employee_residenceGB                               9.928e+03  6.915e+04   0.144
+## employee_residenceGH                              -4.919e+04  5.584e+04  -0.881
+## employee_residenceGR                               1.309e+04  8.185e+04   0.160
+## employee_residenceHK                               2.659e+04  8.273e+04   0.321
+## employee_residenceHN                              -2.191e+04  5.902e+04  -0.371
+## employee_residenceHR                               3.315e+04  3.996e+04   0.829
+## employee_residenceHU                                      NA         NA      NA
+## employee_residenceID                              -4.815e+04  9.658e+04  -0.499
+## employee_residenceIE                               4.309e+04  3.328e+04   1.295
+## employee_residenceIL                                      NA         NA      NA
+## employee_residenceIN                               9.319e+03  6.839e+04   0.136
+## employee_residenceIQ                               6.859e+04  5.920e+04   1.159
+## employee_residenceIR                               5.023e+04  5.929e+04   0.847
+## employee_residenceIT                              -3.553e+03  7.298e+04  -0.049
+## employee_residenceJE                               2.048e+04  5.569e+04   0.368
+## employee_residenceJP                              -1.679e+04  5.544e+04  -0.303
+## employee_residenceKE                              -1.660e+04  4.440e+04  -0.374
+## employee_residenceKW                               1.724e+04  8.142e+04   0.212
+## employee_residenceLT                               6.185e+04  4.428e+04   1.397
+## employee_residenceLU                               8.428e+04  9.122e+04   0.924
+## employee_residenceLV                              -1.418e+04  3.765e+04  -0.377
+## employee_residenceMA                              -8.585e+04  5.663e+04  -1.516
+## employee_residenceMD                              -5.494e+04  5.700e+04  -0.964
+## employee_residenceMK                              -7.487e+04  5.823e+04  -1.286
+## employee_residenceMT                              -3.057e+03  5.538e+04  -0.055
+## employee_residenceMX                              -9.677e+03  7.769e+04  -0.125
+## employee_residenceMY                               5.088e+04  8.272e+04   0.615
+## employee_residenceNG                              -5.892e+04  1.101e+05  -0.535
+## employee_residenceNL                               3.887e+03  7.737e+04   0.050
+## employee_residenceNZ                               1.721e+04  5.960e+04   0.289
+## employee_residencePH                              -1.090e+04  8.081e+04  -0.135
+## employee_residencePK                               2.763e+03  7.148e+04   0.039
+## employee_residencePL                               6.931e+04  8.370e+04   0.828
+## employee_residencePR                               5.005e+04  8.456e+04   0.592
+## employee_residencePT                              -1.063e+04  7.120e+04  -0.149
+## employee_residenceRO                               2.947e+04  7.271e+04   0.405
+## employee_residenceRS                               2.033e+03  8.387e+04   0.024
+## employee_residenceRU                               3.293e+03  7.349e+04   0.045
+## employee_residenceSE                               2.383e+03  4.514e+04   0.053
+## employee_residenceSG                               3.338e+05  1.258e+05   2.653
+## employee_residenceSI                               5.453e+03  3.789e+04   0.144
+## employee_residenceSK                              -7.964e+04  7.017e+04  -1.135
+## employee_residenceTH                              -3.859e+04  5.902e+04  -0.654
+## employee_residenceTN                               2.947e+03  6.183e+04   0.048
+## employee_residenceTR                              -6.598e+04  4.314e+04  -1.529
+## employee_residenceUA                              -7.037e+04  3.818e+04  -1.843
+## employee_residenceUS                               4.721e+04  6.723e+04   0.702
+## employee_residenceUZ                               1.683e+04  7.694e+04   0.219
+## employee_residenceVN                              -5.164e+04  5.429e+04  -0.951
+## remote_ratioPR                                     1.203e+03  4.984e+03   0.241
+## remote_ratioRE                                     9.116e+02  4.894e+03   0.186
+## company_locationAL                                -1.010e+05  9.885e+04  -1.022
+## company_locationAM                                        NA         NA      NA
+## company_locationAR                                -8.523e+03  7.381e+04  -0.115
+## company_locationAS                                 1.799e+04  7.212e+04   0.249
+## company_locationAT                                 4.726e+03  7.406e+04   0.064
+## company_locationAU                                 3.724e+04  7.107e+04   0.524
+## company_locationBA                                        NA         NA      NA
+## company_locationBE                                -1.905e+04  9.566e+04  -0.199
+## company_locationBO                                -4.040e+04  8.547e+04  -0.473
+## company_locationBR                                -2.407e+04  6.990e+04  -0.344
+## company_locationBS                                 4.012e+04  1.327e+05   0.302
+## company_locationCA                                 7.753e+03  6.725e+04   0.115
+## company_locationCF                                        NA         NA      NA
+## company_locationCH                                -1.215e+03  8.151e+04  -0.015
+## company_locationCL                                        NA         NA      NA
+## company_locationCN                                        NA         NA      NA
+## company_locationCO                                        NA         NA      NA
+## company_locationCR                                -2.349e+04  9.420e+04  -0.249
+## company_locationCZ                                        NA         NA      NA
+## company_locationDE                                 1.515e+04  6.500e+04   0.233
+## company_locationDK                                -7.092e+04  1.023e+05  -0.693
+## company_locationDZ                                        NA         NA      NA
+## company_locationEE                                        NA         NA      NA
+## company_locationEG                                        NA         NA      NA
+## company_locationES                                -2.959e+04  6.270e+04  -0.472
+## company_locationFI                                -2.400e+04  9.046e+04  -0.265
+## company_locationFR                                -5.214e+03  6.265e+04  -0.083
+## company_locationGB                                 7.171e+03  6.215e+04   0.115
+## company_locationGH                                        NA         NA      NA
+## company_locationGR                                 1.351e+04  7.728e+04   0.175
+## company_locationHK                                        NA         NA      NA
+## company_locationHN                                        NA         NA      NA
+## company_locationHR                                        NA         NA      NA
+## company_locationHU                                -1.858e+04  8.393e+04  -0.221
+## company_locationID                                 3.135e+04  7.976e+04   0.393
+## company_locationIE                                        NA         NA      NA
+## company_locationIL                                -1.843e+05  1.132e+05  -1.627
+## company_locationIN                                 8.891e+03  6.328e+04   0.141
+## company_locationIQ                                        NA         NA      NA
+## company_locationIR                                        NA         NA      NA
+## company_locationIT                                 3.039e+04  7.314e+04   0.415
+## company_locationJP                                 7.881e+04  5.575e+04   1.414
+## company_locationKE                                        NA         NA      NA
+## company_locationLT                                        NA         NA      NA
+## company_locationLU                                -1.576e+04  7.130e+04  -0.221
+## company_locationLV                                        NA         NA      NA
+## company_locationMA                                        NA         NA      NA
+## company_locationMD                                        NA         NA      NA
+## company_locationMK                                        NA         NA      NA
+## company_locationMT                                        NA         NA      NA
+## company_locationMX                                 9.420e+03  7.299e+04   0.129
+## company_locationMY                                        NA         NA      NA
+## company_locationNG                                 1.097e+05  1.093e+05   1.004
+## company_locationNL                                 1.889e+04  7.376e+04   0.256
+## company_locationNZ                                        NA         NA      NA
+## company_locationPH                                 1.003e+04  8.914e+04   0.112
+## company_locationPK                                -5.882e+04  7.199e+04  -0.817
+## company_locationPL                                -1.072e+04  7.319e+04  -0.146
+## company_locationPR                                 7.224e+03  8.335e+04   0.087
+## company_locationPT                                 3.845e+03  6.721e+04   0.057
+## company_locationRO                                -3.921e+04  7.161e+04  -0.548
+## company_locationRU                                -4.076e+04  7.251e+04  -0.562
+## company_locationSE                                        NA         NA      NA
+## company_locationSG                                -2.449e+05  9.289e+04  -2.636
+## company_locationSI                                        NA         NA      NA
+## company_locationSK                                        NA         NA      NA
+## company_locationTH                                        NA         NA      NA
+## company_locationTR                                        NA         NA      NA
+## company_locationUA                                        NA         NA      NA
+## company_locationUS                                 6.961e+03  6.129e+04   0.114
+## company_locationVN                                        NA         NA      NA
+## company_sizeM                                     -3.518e+03  3.041e+03  -1.157
+## company_sizeS                                     -2.127e+04  5.545e+03  -3.836
+## work_abroadTRUE                                   -8.640e+03  1.157e+04  -0.747
+##                                                   Pr(>|t|)    
+## (Intercept)                                       0.005012 ** 
+## work_year                                         0.005199 ** 
+## experience_levelEX                                 < 2e-16 ***
+## experience_levelMI                                5.48e-10 ***
+## experience_levelSE                                 < 2e-16 ***
+## employment_typeFL                                 0.429973    
+## employment_typeFT                                 0.913943    
+## employment_typePT                                 0.549863    
+## job_titleAI Developer                             0.088018 .  
+## job_titleAI Programmer                            0.598257    
+## job_titleAI Scientist                             0.615255    
+## job_titleAnalytics Engineer                       0.894522    
+## job_titleApplied Data Scientist                   0.437753    
+## job_titleApplied Machine Learning Engineer        0.770797    
+## job_titleApplied Machine Learning Scientist       0.558497    
+## job_titleApplied Scientist                        0.440534    
+## job_titleAutonomous Vehicle Technician            0.838266    
+## job_titleAzure Data Engineer                      0.707447    
+## job_titleBI Analyst                               0.925020    
+## job_titleBI Data Analyst                          0.841135    
+## job_titleBI Data Engineer                         0.458998    
+## job_titleBI Developer                             0.727906    
+## job_titleBig Data Architect                       0.653753    
+## job_titleBig Data Engineer                        0.709743    
+## job_titleBusiness Data Analyst                    0.747472    
+## job_titleBusiness Intelligence Engineer           0.734551    
+## job_titleCloud Data Architect                     0.143481    
+## job_titleCloud Data Engineer                      0.388956    
+## job_titleCloud Database Engineer                  0.990284    
+## job_titleCompliance Data Analyst                  0.265009    
+## job_titleComputer Vision Engineer                 0.408416    
+## job_titleComputer Vision Software Engineer        0.832597    
+## job_titleData Analyst                             0.621143    
+## job_titleData Analytics Consultant                0.778493    
+## job_titleData Analytics Engineer                  0.998620    
+## job_titleData Analytics Lead                      0.000260 ***
+## job_titleData Analytics Manager                   0.910115    
+## job_titleData Analytics Specialist                0.312043    
+## job_titleData Architect                           0.845392    
+## job_titleData DevOps Engineer                     0.962386    
+## job_titleData Engineer                            0.947118    
+## job_titleData Infrastructure Engineer             0.514186    
+## job_titleData Lead                                0.340319    
+## job_titleData Management Specialist               0.849189    
+## job_titleData Manager                             0.682982    
+## job_titleData Modeler                             0.540940    
+## job_titleData Operations Analyst                  0.268735    
+## job_titleData Operations Engineer                 0.440746    
+## job_titleData Quality Analyst                     0.229499    
+## job_titleData Science Consultant                  0.771512    
+## job_titleData Science Engineer                    0.779468    
+## job_titleData Science Lead                        0.619861    
+## job_titleData Science Manager                     0.357099    
+## job_titleData Science Tech Lead                   0.001220 ** 
+## job_titleData Scientist                           0.853323    
+## job_titleData Scientist Lead                      0.562235    
+## job_titleData Specialist                          0.629408    
+## job_titleData Strategist                          0.249570    
+## job_titleDeep Learning Engineer                   0.965374    
+## job_titleDeep Learning Researcher                 0.794950    
+## job_titleDirector of Data Science                 0.309250    
+## job_titleETL Developer                            0.985955    
+## job_titleETL Engineer                             0.872097    
+## job_titleFinance Data Analyst                     0.592015    
+## job_titleFinancial Data Analyst                   0.682931    
+## job_titleHead of Data                             0.311421    
+## job_titleHead of Data Science                     0.764067    
+## job_titleHead of Machine Learning                 0.808230    
+## job_titleInsight Analyst                          0.564267    
+## job_titleLead Data Analyst                        0.686130    
+## job_titleLead Data Engineer                       0.507639    
+## job_titleLead Data Scientist                      0.634765    
+## job_titleLead Machine Learning Engineer           0.769241    
+## job_titleMachine Learning Developer               0.982032    
+## job_titleMachine Learning Engineer                0.647967    
+## job_titleMachine Learning Infrastructure Engineer 0.534352    
+## job_titleMachine Learning Manager                 0.663033    
+## job_titleMachine Learning Research Engineer       0.861921    
+## job_titleMachine Learning Researcher              0.855082    
+## job_titleMachine Learning Scientist               0.429634    
+## job_titleMachine Learning Software Engineer       0.237427    
+## job_titleManager Data Management                  0.662726    
+## job_titleMarketing Data Analyst                   0.139770    
+## job_titleMarketing Data Engineer                  0.721020    
+## job_titleML Engineer                              0.585671    
+## job_titleMLOps Engineer                           0.976119    
+## job_titleNLP Engineer                             0.483421    
+## job_titlePower BI Developer                       0.980247    
+## job_titlePrincipal Data Analyst                   0.945366    
+## job_titlePrincipal Data Architect                 0.827724    
+## job_titlePrincipal Data Engineer                  0.470021    
+## job_titlePrincipal Data Scientist                 0.131468    
+## job_titlePrincipal Machine Learning Engineer      0.607489    
+## job_titleProduct Data Analyst                     0.891335    
+## job_titleProduct Data Scientist                   0.121383    
+## job_titleResearch Engineer                        0.558496    
+## job_titleResearch Scientist                       0.479431    
+## job_titleSoftware Data Engineer                   0.940243    
+## job_titleStaff Data Analyst                       0.626035    
+## job_titleStaff Data Scientist                     0.566927    
+## salary_currencyBRL                                0.338883    
+## salary_currencyCAD                                0.537843    
+## salary_currencyCHF                                0.298181    
+## salary_currencyCLP                                0.709583    
+## salary_currencyCZK                                0.880798    
+## salary_currencyDKK                                0.277532    
+## salary_currencyEUR                                0.462359    
+## salary_currencyGBP                                0.180388    
+## salary_currencyHKD                                0.784138    
+## salary_currencyHUF                                0.553077    
+## salary_currencyILS                                3.33e-05 ***
+## salary_currencyINR                                0.768398    
+## salary_currencyJPY                                0.786899    
+## salary_currencyMXN                                0.567841    
+## salary_currencyPLN                                0.807416    
+## salary_currencySGD                                0.804560    
+## salary_currencyTHB                                0.441774    
+## salary_currencyTRY                                0.195516    
+## salary_currencyUSD                                0.087814 .  
+## employee_residenceAM                              0.532503    
+## employee_residenceAR                              0.837086    
+## employee_residenceAS                              0.647577    
+## employee_residenceAT                              0.895984    
+## employee_residenceAU                              0.630039    
+## employee_residenceBA                              0.875495    
+## employee_residenceBE                              0.521929    
+## employee_residenceBG                              0.703355    
+## employee_residenceBO                              0.681255    
+## employee_residenceBR                              0.988070    
+## employee_residenceCA                              0.570621    
+## employee_residenceCF                              0.771807    
+## employee_residenceCH                                    NA    
+## employee_residenceCL                              0.359443    
+## employee_residenceCN                              0.103022    
+## employee_residenceCO                              0.500278    
+## employee_residenceCR                              0.946963    
+## employee_residenceCY                              0.939396    
+## employee_residenceCZ                              0.477094    
+## employee_residenceDE                              0.665980    
+## employee_residenceDK                                    NA    
+## employee_residenceDO                              0.353181    
+## employee_residenceDZ                              0.326503    
+## employee_residenceEE                              0.559975    
+## employee_residenceEG                              0.095085 .  
+## employee_residenceES                              0.591623    
+## employee_residenceFI                              0.771034    
+## employee_residenceFR                              0.714332    
+## employee_residenceGB                              0.885839    
+## employee_residenceGH                              0.378432    
+## employee_residenceGR                              0.872957    
+## employee_residenceHK                              0.747927    
+## employee_residenceHN                              0.710528    
+## employee_residenceHR                              0.406906    
+## employee_residenceHU                                    NA    
+## employee_residenceID                              0.618122    
+## employee_residenceIE                              0.195552    
+## employee_residenceIL                                    NA    
+## employee_residenceIN                              0.891626    
+## employee_residenceIQ                              0.246666    
+## employee_residenceIR                              0.396913    
+## employee_residenceIT                              0.961176    
+## employee_residenceJE                              0.713023    
+## employee_residenceJP                              0.762097    
+## employee_residenceKE                              0.708480    
+## employee_residenceKW                              0.832346    
+## employee_residenceLT                              0.162537    
+## employee_residenceLU                              0.355555    
+## employee_residenceLV                              0.706369    
+## employee_residenceMA                              0.129609    
+## employee_residenceMD                              0.335196    
+## employee_residenceMK                              0.198602    
+## employee_residenceMT                              0.955980    
+## employee_residenceMX                              0.900880    
+## employee_residenceMY                              0.538567    
+## employee_residenceNG                              0.592561    
+## employee_residenceNL                              0.959935    
+## employee_residenceNZ                              0.772753    
+## employee_residencePH                              0.892708    
+## employee_residencePK                              0.969170    
+## employee_residencePL                              0.407684    
+## employee_residencePR                              0.553983    
+## employee_residencePT                              0.881298    
+## employee_residenceRO                              0.685258    
+## employee_residenceRS                              0.980660    
+## employee_residenceRU                              0.964256    
+## employee_residenceSE                              0.957904    
+## employee_residenceSG                              0.008021 ** 
+## employee_residenceSI                              0.885557    
+## employee_residenceSK                              0.256482    
+## employee_residenceTH                              0.513241    
+## employee_residenceTN                              0.961984    
+## employee_residenceTR                              0.126295    
+## employee_residenceUA                              0.065429 .  
+## employee_residenceUS                              0.482571    
+## employee_residenceUZ                              0.826835    
+## employee_residenceVN                              0.341561    
+## remote_ratioPR                                    0.809223    
+## remote_ratioRE                                    0.852254    
+## company_locationAL                                0.306792    
+## company_locationAM                                      NA    
+## company_locationAR                                0.908075    
+## company_locationAS                                0.803063    
+## company_locationAT                                0.949126    
+## company_locationAU                                0.600337    
+## company_locationBA                                      NA    
+## company_locationBE                                0.842176    
+## company_locationBO                                0.636514    
+## company_locationBR                                0.730613    
+## company_locationBS                                0.762439    
+## company_locationCA                                0.908229    
+## company_locationCF                                      NA    
+## company_locationCH                                0.988112    
+## company_locationCL                                      NA    
+## company_locationCN                                      NA    
+## company_locationCO                                      NA    
+## company_locationCR                                0.803069    
+## company_locationCZ                                      NA    
+## company_locationDE                                0.815697    
+## company_locationDK                                0.488225    
+## company_locationDZ                                      NA    
+## company_locationEE                                      NA    
+## company_locationEG                                      NA    
+## company_locationES                                0.636950    
+## company_locationFI                                0.790743    
+## company_locationFR                                0.933681    
+## company_locationGB                                0.908152    
+## company_locationGH                                      NA    
+## company_locationGR                                0.861236    
+## company_locationHK                                      NA    
+## company_locationHN                                      NA    
+## company_locationHR                                      NA    
+## company_locationHU                                0.824797    
+## company_locationID                                0.694292    
+## company_locationIE                                      NA    
+## company_locationIL                                0.103729    
+## company_locationIN                                0.888273    
+## company_locationIQ                                      NA    
+## company_locationIR                                      NA    
+## company_locationIT                                0.677832    
+## company_locationJP                                0.157593    
+## company_locationKE                                      NA    
+## company_locationLT                                      NA    
+## company_locationLU                                0.825091    
+## company_locationLV                                      NA    
+## company_locationMA                                      NA    
+## company_locationMD                                      NA    
+## company_locationMK                                      NA    
+## company_locationMT                                      NA    
+## company_locationMX                                0.897320    
+## company_locationMY                                      NA    
+## company_locationNG                                0.315272    
+## company_locationNL                                0.797933    
+## company_locationNZ                                      NA    
+## company_locationPH                                0.910435    
+## company_locationPK                                0.413986    
+## company_locationPL                                0.883575    
+## company_locationPR                                0.930941    
+## company_locationPT                                0.954387    
+## company_locationRO                                0.584049    
+## company_locationRU                                0.574056    
+## company_locationSE                                      NA    
+## company_locationSG                                0.008416 ** 
+## company_locationSI                                      NA    
+## company_locationSK                                      NA    
+## company_locationTH                                      NA    
+## company_locationTR                                      NA    
+## company_locationUA                                      NA    
+## company_locationUS                                0.909582    
+## company_locationVN                                      NA    
+## company_sizeM                                     0.247347    
+## company_sizeS                                     0.000127 ***
+## work_abroadTRUE                                   0.455041    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 46520 on 3520 degrees of freedom
+## Multiple R-squared:  0.4896, Adjusted R-squared:  0.4556 
+## F-statistic: 14.43 on 234 and 3520 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: salary_in_usd
+##                      Df     Sum Sq    Mean Sq  F value    Pr(>F)    
+## work_year             1 7.7789e+11 7.7789e+11 359.3941 < 2.2e-16 ***
+## experience_level      3 2.5030e+12 8.3433e+11 385.4719 < 2.2e-16 ***
+## employment_type       3 5.1946e+10 1.7315e+10   8.0000 2.594e-05 ***
+## job_title            92 1.4057e+12 1.5279e+10   7.0593 < 2.2e-16 ***
+## salary_currency      19 1.8617e+12 9.7983e+10  45.2694 < 2.2e-16 ***
+## employee_residence   73 5.9059e+11 8.0903e+09   3.7378 < 2.2e-16 ***
+## remote_ratio          2 3.5110e+08 1.7555e+08   0.0811 0.9220971    
+## company_location     38 8.3286e+10 2.1917e+09   1.0126 0.4484065    
+## company_size          2 3.1499e+10 1.5749e+10   7.2764 0.0007021 ***
+## work_abroad           1 1.2082e+09 1.2082e+09   0.5582 0.4550410    
+## Residuals          3520 7.6188e+12 2.1644e+09                       
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 91600.88
+\end{verbatim}
+
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-19-2.pdf}
+
+\begin{verbatim}
+## [1] "experience_level job_title salary_currency employee_residence"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 91587.91
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.479534
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.4522486
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "experience_level job_title salary_currency employee_residence company_size"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 91574.8
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.4819001
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.4544328
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "experience_level job_title employee_residence"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 91621.73
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.4694832
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.4440089
+\end{verbatim}
+
+\begin{verbatim}
+## Start:  AIC=80942.65
+## salary_in_usd ~ work_year + experience_level + employment_type + 
+##     job_title + salary_currency + employee_residence + remote_ratio + 
+##     company_location + company_size + work_abroad
+## 
+##                      Df  Sum of Sq        RSS   AIC
+## - company_location   38 8.3253e+10 7.7021e+12 80907
+## - employee_residence 42 1.0781e+11 7.7266e+12 80911
+## - remote_ratio        2 1.5790e+08 7.6190e+12 80939
+## - employment_type     3 4.6526e+09 7.6235e+12 80939
+## - work_abroad         1 1.2082e+09 7.6200e+12 80941
+## <none>                             7.6188e+12 80943
+## - work_year           1 1.6923e+10 7.6357e+12 80949
+## - company_size        2 3.1857e+10 7.6507e+12 80954
+## - salary_currency    13 1.2718e+11 7.7460e+12 80979
+## - experience_level    3 7.0980e+11 8.3286e+12 81271
+## - job_title          92 1.4175e+12 9.0364e+12 81399
+## 
+## Step:  AIC=80907.46
+## salary_in_usd ~ work_year + experience_level + employment_type + 
+##     job_title + salary_currency + employee_residence + remote_ratio + 
+##     company_size + work_abroad
+## 
+##                      Df  Sum of Sq        RSS   AIC
+## - remote_ratio        2 1.7859e+09 7.7039e+12 80904
+## - employment_type     3 6.9049e+09 7.7090e+12 80905
+## - work_abroad         1 2.6014e+09 7.7047e+12 80907
+## <none>                             7.7021e+12 80907
+## - work_year           1 1.6007e+10 7.7181e+12 80913
+## - company_size        2 2.9476e+10 7.7315e+12 80918
+## - salary_currency    15 1.4889e+11 7.8510e+12 80949
+## - employee_residence 73 5.2044e+11 8.2225e+12 81007
+## - experience_level    3 7.2462e+11 8.4267e+12 81239
+## - job_title          92 1.4177e+12 9.1198e+12 81358
+## 
+## Step:  AIC=80904.33
+## salary_in_usd ~ work_year + experience_level + employment_type + 
+##     job_title + salary_currency + employee_residence + company_size + 
+##     work_abroad
+## 
+##                      Df  Sum of Sq        RSS   AIC
+## - employment_type     3 7.4362e+09 7.7113e+12 80902
+## - work_abroad         1 2.1815e+09 7.7060e+12 80903
+## <none>                             7.7039e+12 80904
+## - work_year           1 1.7741e+10 7.7216e+12 80911
+## - company_size        2 2.8236e+10 7.7321e+12 80914
+## - salary_currency    15 1.5051e+11 7.8544e+12 80947
+## - employee_residence 73 5.2240e+11 8.2263e+12 81005
+## - experience_level    3 7.3453e+11 8.4384e+12 81240
+## - job_title          92 1.4165e+12 9.1204e+12 81354
+## 
+## Step:  AIC=80901.95
+## salary_in_usd ~ work_year + experience_level + job_title + salary_currency + 
+##     employee_residence + company_size + work_abroad
+## 
+##                      Df  Sum of Sq        RSS   AIC
+## - work_abroad         1 3.3283e+09 7.7146e+12 80902
+## <none>                             7.7113e+12 80902
+## - work_year           1 1.8107e+10 7.7294e+12 80909
+## - company_size        2 3.1364e+10 7.7427e+12 80913
+## - salary_currency    15 1.4807e+11 7.8594e+12 80943
+## - employee_residence 73 5.3719e+11 8.2485e+12 81009
+## - experience_level    3 7.3616e+11 8.4475e+12 81238
+## - job_title          92 1.4197e+12 9.1310e+12 81353
+## 
+## Step:  AIC=80901.57
+## salary_in_usd ~ work_year + experience_level + job_title + salary_currency + 
+##     employee_residence + company_size
+## 
+##                      Df  Sum of Sq        RSS   AIC
+## <none>                             7.7146e+12 80902
+## - work_year           1 1.8513e+10 7.7331e+12 80909
+## - company_size        2 3.2718e+10 7.7473e+12 80913
+## - salary_currency    15 1.4544e+11 7.8601e+12 80942
+## - employee_residence 73 5.8356e+11 8.2982e+12 81029
+## - experience_level    3 7.3464e+11 8.4493e+12 81237
+## - job_title          92 1.4200e+12 9.1346e+12 81352
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = salary_in_usd ~ work_year + experience_level + job_title + 
+##     salary_currency + employee_residence + company_size, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -130008  -29240   -4669   23098  378456 
+## 
+## Coefficients: (4 not defined because of singularities)
+##                                                     Estimate Std. Error t value
+## (Intercept)                                       -7924699.0  2696436.8  -2.939
+## work_year                                             3900.3     1333.7   2.925
+## experience_levelEX                                   84215.1     5724.7  14.711
+## experience_levelMI                                   21594.5     3399.1   6.353
+## experience_levelSE                                   44506.7     3192.6  13.940
+## job_titleAI Developer                               147051.6    32094.0   4.582
+## job_titleAI Programmer                               56391.5    43679.4   1.291
+## job_titleAI Scientist                                75298.9    28541.6   2.638
+## job_titleAnalytics Engineer                          58690.3    26569.3   2.209
+## job_titleApplied Data Scientist                      79332.2    30733.2   2.581
+## job_titleApplied Machine Learning Engineer           71308.1    42766.8   1.667
+## job_titleApplied Machine Learning Scientist          83504.6    30258.8   2.760
+## job_titleApplied Scientist                           90947.5    26902.8   3.381
+## job_titleAutonomous Vehicle Technician               35026.6    48681.9   0.720
+## job_titleAzure Data Engineer                         30463.9    55375.5   0.550
+## job_titleBI Analyst                                  44071.8    30718.7   1.435
+## job_titleBI Data Analyst                             43551.3    29075.8   1.498
+## job_titleBI Data Engineer                             1550.7    53421.5   0.029
+## job_titleBI Developer                                34313.8    29168.8   1.176
+## job_titleBig Data Architect                          79154.6    42399.0   1.867
+## job_titleBig Data Engineer                           68744.3    30648.7   2.243
+## job_titleBusiness Data Analyst                       36427.3    29026.1   1.255
+## job_titleBusiness Intelligence Engineer              71193.9    35021.8   2.033
+## job_titleCloud Data Architect                       150638.5    53458.7   2.818
+## job_titleCloud Data Engineer                        101891.7    44887.2   2.270
+## job_titleCloud Database Engineer                     52762.9    33437.6   1.578
+## job_titleCompliance Data Analyst                    -20268.8    58270.5  -0.348
+## job_titleComputer Vision Engineer                    92908.8    28383.9   3.273
+## job_titleComputer Vision Software Engineer           65734.7    34871.6   1.885
+## job_titleData Analyst                                27791.5    26200.3   1.061
+## job_titleData Analytics Consultant                   29978.3    43571.5   0.688
+## job_titleData Analytics Engineer                     45739.9    33011.9   1.386
+## job_titleData Analytics Lead                        172193.3    42044.9   4.095
+## job_titleData Analytics Manager                      47086.4    27997.5   1.682
+## job_titleData Analytics Specialist                   -7956.1    42043.8  -0.189
+## job_titleData Architect                              62074.5    26567.0   2.337
+## job_titleData DevOps Engineer                        48311.2    53987.5   0.895
+## job_titleData Engineer                               55952.0    26193.0   2.136
+## job_titleData Infrastructure Engineer                87370.4    32359.5   2.700
+## job_titleData Lead                                  109543.9    42043.8   2.605
+## job_titleData Management Specialist                  64188.2    56624.8   1.134
+## job_titleData Manager                                31850.1    27593.8   1.154
+## job_titleData Modeler                                15943.9    42043.8   0.379
+## job_titleData Operations Analyst                     -8493.2    35019.8  -0.243
+## job_titleData Operations Engineer                    12396.6    30033.4   0.413
+## job_titleData Quality Analyst                       -10117.9    31731.2  -0.319
+## job_titleData Science Consultant                     37531.4    27834.4   1.348
+## job_titleData Science Engineer                       39110.3    33881.5   1.154
+## job_titleData Science Lead                           78321.7    30872.0   2.537
+## job_titleData Science Manager                        98113.1    26875.1   3.651
+## job_titleData Science Tech Lead                     271738.2    53447.4   5.084
+## job_titleData Scientist                              61622.5    26183.2   2.354
+## job_titleData Scientist Lead                         85280.5    43322.5   1.969
+## job_titleData Specialist                             27492.8    29181.2   0.942
+## job_titleData Strategist                            -14756.6    42210.5  -0.350
+## job_titleDeep Learning Engineer                      54836.7    32356.3   1.695
+## job_titleDeep Learning Researcher                    72187.9    54049.0   1.336
+## job_titleDirector of Data Science                   106239.3    30201.7   3.518
+## job_titleETL Developer                               52387.0    30123.6   1.739
+## job_titleETL Engineer                                42774.4    42222.8   1.013
+## job_titleFinance Data Analyst                        13958.3    53614.2   0.260
+## job_titleFinancial Data Analyst                      28617.2    37540.6   0.762
+## job_titleHead of Data                               105364.4    31504.3   3.344
+## job_titleHead of Data Science                        67600.1    30713.3   2.201
+## job_titleHead of Machine Learning                    38522.0    53846.9   0.715
+## job_titleInsight Analyst                             18165.9    42222.8   0.430
+## job_titleLead Data Analyst                           31270.8    33481.3   0.934
+## job_titleLead Data Engineer                          87659.0    33803.4   2.593
+## job_titleLead Data Scientist                         77363.3    30576.2   2.530
+## job_titleLead Machine Learning Engineer              71656.5    37822.7   1.895
+## job_titleMachine Learning Developer                  65497.3    34063.8   1.923
+## job_titleMachine Learning Engineer                   75566.9    26275.7   2.876
+## job_titleMachine Learning Infrastructure Engineer    85748.9    29812.6   2.876
+## job_titleMachine Learning Manager                    77043.1    37665.1   2.045
+## job_titleMachine Learning Research Engineer          44491.0    35174.8   1.265
+## job_titleMachine Learning Researcher                 58984.8    32636.3   1.807
+## job_titleMachine Learning Scientist                  90518.6    27713.8   3.266
+## job_titleMachine Learning Software Engineer         115099.4    30365.0   3.791
+## job_titleManager Data Management                     21738.2    53447.4   0.407
+## job_titleMarketing Data Analyst                     108328.6    43045.5   2.517
+## job_titleMarketing Data Engineer                     48361.5    59982.1   0.806
+## job_titleML Engineer                                 79275.7    27328.3   2.901
+## job_titleMLOps Engineer                              50906.4    35055.5   1.452
+## job_titleNLP Engineer                                89264.1    32530.6   2.744
+## job_titlePower BI Developer                          55737.4    53586.3   1.040
+## job_titlePrincipal Data Analyst                      48581.1    41923.5   1.159
+## job_titlePrincipal Data Architect                    40075.3    53620.5   0.747
+## job_titlePrincipal Data Engineer                     95241.6    42084.5   2.263
+## job_titlePrincipal Data Scientist                   132248.9    31062.5   4.258
+## job_titlePrincipal Machine Learning Engineer         86738.2    53447.4   1.623
+## job_titleProduct Data Analyst                        46340.3    35005.3   1.324
+## job_titleProduct Data Scientist                     -51485.2    55385.8  -0.930
+## job_titleResearch Engineer                           82202.5    27263.3   3.015
+## job_titleResearch Scientist                          88394.6    26658.5   3.316
+## job_titleSoftware Data Engineer                      -6776.6    46249.5  -0.147
+## job_titleStaff Data Analyst                        -103576.9    58495.0  -1.771
+## job_titleStaff Data Scientist                         9844.6    53415.8   0.184
+## salary_currencyBRL                                    5585.5    45766.3   0.122
+## salary_currencyCAD                                   -8952.4    40926.6  -0.219
+## salary_currencyCHF                                   63667.8    53115.9   1.199
+## salary_currencyCLP                                  -75339.7    77623.8  -0.971
+## salary_currencyCZK                                  -23984.6    79219.8  -0.303
+## salary_currencyDKK                                   10293.3    57575.0   0.179
+## salary_currencyEUR                                   -1468.4    40079.1  -0.037
+## salary_currencyGBP                                   23147.5    41482.8   0.558
+## salary_currencyHKD                                  -11751.3    77842.8  -0.151
+## salary_currencyHUF                                    3435.8    54791.8   0.063
+## salary_currencyILS                                  338363.9    68008.0   4.975
+## salary_currencyINR                                  -19960.3    42144.4  -0.474
+## salary_currencyJPY                                   -1474.1    53394.2  -0.028
+## salary_currencyMXN                                    1514.3    63182.3   0.024
+## salary_currencyPLN                                  -70808.9    67077.7  -1.056
+## salary_currencySGD                                  -58222.7    79344.0  -0.734
+## salary_currencyTHB                                   30714.8    72717.6   0.422
+## salary_currencyTRY                                   42684.0    57750.9   0.739
+## salary_currencyUSD                                   41446.2    39106.4   1.060
+## employee_residenceAM                                -33804.4    54092.0  -0.625
+## employee_residenceAR                                -18743.8    33840.3  -0.554
+## employee_residenceAS                                  9363.0    52966.1   0.177
+## employee_residenceAT                                 16593.0    34955.0   0.475
+## employee_residenceAU                                 31593.1    45393.7   0.696
+## employee_residenceBA                                -13694.5    57272.5  -0.239
+## employee_residenceBE                                 39951.1    36111.0   1.106
+## employee_residenceBG                                 28859.5    54112.1   0.533
+## employee_residenceBO                                -44733.9    39913.7  -1.121
+## employee_residenceBR                                -18041.5    31032.5  -0.581
+## employee_residenceCA                                 48345.3    28291.2   1.709
+## employee_residenceCF                                 -8295.1    45466.8  -0.182
+## employee_residenceCH                                      NA         NA      NA
+## employee_residenceCL                                 74296.9    55741.8   1.333
+## employee_residenceCN                                114869.9    54170.4   2.121
+## employee_residenceCO                                -23091.4    36529.2  -0.632
+## employee_residenceCR                                 -6795.7    54242.5  -0.125
+## employee_residenceCY                                 -7013.3    54962.6  -0.128
+## employee_residenceCZ                                -39300.1    54405.7  -0.722
+## employee_residenceDE                                 42514.2    29622.9   1.435
+## employee_residenceDK                                      NA         NA      NA
+## employee_residenceDO                                 49373.3    54239.7   0.910
+## employee_residenceDZ                                 39373.3    54239.7   0.726
+## employee_residenceEE                                -35267.0    57560.3  -0.613
+## employee_residenceEG                                -88317.3    55015.2  -1.605
+## employee_residenceES                                  7269.8    29276.0   0.248
+## employee_residenceFI                                  3138.3    54812.7   0.057
+## employee_residenceFR                                 17107.7    29784.3   0.574
+## employee_residenceGB                                 22419.6    31000.2   0.723
+## employee_residenceGH                                -30202.6    50181.1  -0.602
+## employee_residenceGR                                 21425.7    31348.2   0.683
+## employee_residenceHK                                 27931.8    56042.7   0.498
+## employee_residenceHN                                -22876.7    58952.1  -0.388
+## employee_residenceHR                                 35939.4    39801.7   0.903
+## employee_residenceHU                                      NA         NA      NA
+## employee_residenceID                                -16001.8    54250.8  -0.295
+## employee_residenceIE                                 42515.2    33072.8   1.286
+## employee_residenceIL                                      NA         NA      NA
+## employee_residenceIN                                 11768.1    31137.7   0.378
+## employee_residenceIQ                                 55660.3    58368.3   0.954
+## employee_residenceIR                                 25428.9    54195.6   0.469
+## employee_residenceIT                                  -697.7    33616.6  -0.021
+## employee_residenceJE                                 12295.4    54474.1   0.226
+## employee_residenceJP                                 40402.0    36252.6   1.114
+## employee_residenceKE                                -10345.6    44228.6  -0.234
+## employee_residenceKW                                 15097.9    54286.6   0.278
+## employee_residenceLT                                 61175.8    43975.5   1.391
+## employee_residenceLU                                 66279.3    56356.2   1.176
+## employee_residenceLV                                -15144.9    37278.0  -0.406
+## employee_residenceMA                                -87842.1    56395.3  -1.558
+## employee_residenceMD                                -51181.1    56468.8  -0.906
+## employee_residenceMK                                -80575.6    57972.2  -1.390
+## employee_residenceMT                                 -5572.9    54919.5  -0.101
+## employee_residenceMX                                 -1957.8    31684.5  -0.062
+## employee_residenceMY                                 51124.6    56855.1   0.899
+## employee_residenceNG                                 43158.2    35745.6   1.207
+## employee_residenceNL                                 17918.8    31149.5   0.575
+## employee_residenceNZ                                 17892.2    58167.3   0.308
+## employee_residencePH                                 -6769.7    42933.7  -0.158
+## employee_residencePK                                -20666.1    33030.9  -0.626
+## employee_residencePL                                 68768.5    57324.3   1.200
+## employee_residencePR                                 56382.0    34784.6   1.621
+## employee_residencePT                                -12178.4    30706.3  -0.397
+## employee_residenceRO                                 12916.9    39527.4   0.327
+## employee_residenceRS                                  6387.3    54843.7   0.116
+## employee_residenceRU                                -22781.4    36602.0  -0.622
+## employee_residenceSE                                  2328.3    44826.0   0.052
+## employee_residenceSG                                118967.4    79093.7   1.504
+## employee_residenceSI                                  4042.7    37477.0   0.108
+## employee_residenceSK                                -73618.5    65908.3  -1.117
+## employee_residenceTH                                -49807.3    58495.6  -0.851
+## employee_residenceTN                                 -9125.3    57107.9  -0.160
+## employee_residenceTR                                -64721.2    43017.4  -1.505
+## employee_residenceUA                                -77148.2    37653.5  -2.049
+## employee_residenceUS                                 55544.7    27634.3   2.010
+## employee_residenceUZ                                 -7220.3    43227.2  -0.167
+## employee_residenceVN                                -49405.4    39513.3  -1.250
+## company_sizeM                                        -4206.1     2920.2  -1.440
+## company_sizeS                                       -20467.7     5274.0  -3.881
+##                                                   Pr(>|t|)    
+## (Intercept)                                       0.003314 ** 
+## work_year                                         0.003472 ** 
+## experience_levelEX                                 < 2e-16 ***
+## experience_levelMI                                2.38e-10 ***
+## experience_levelSE                                 < 2e-16 ***
+## job_titleAI Developer                             4.77e-06 ***
+## job_titleAI Programmer                            0.196776    
+## job_titleAI Scientist                             0.008370 ** 
+## job_titleAnalytics Engineer                       0.027242 *  
+## job_titleApplied Data Scientist                   0.009882 ** 
+## job_titleApplied Machine Learning Engineer        0.095529 .  
+## job_titleApplied Machine Learning Scientist       0.005815 ** 
+## job_titleApplied Scientist                        0.000731 ***
+## job_titleAutonomous Vehicle Technician            0.471880    
+## job_titleAzure Data Engineer                      0.582263    
+## job_titleBI Analyst                               0.151463    
+## job_titleBI Data Analyst                          0.134260    
+## job_titleBI Data Engineer                         0.976844    
+## job_titleBI Developer                             0.239518    
+## job_titleBig Data Architect                       0.061998 .  
+## job_titleBig Data Engineer                        0.024960 *  
+## job_titleBusiness Data Analyst                    0.209567    
+## job_titleBusiness Intelligence Engineer           0.042142 *  
+## job_titleCloud Data Architect                     0.004861 ** 
+## job_titleCloud Data Engineer                      0.023270 *  
+## job_titleCloud Database Engineer                  0.114666    
+## job_titleCompliance Data Analyst                  0.727981    
+## job_titleComputer Vision Engineer                 0.001073 ** 
+## job_titleComputer Vision Software Engineer        0.059505 .  
+## job_titleData Analyst                             0.288885    
+## job_titleData Analytics Consultant                0.491480    
+## job_titleData Analytics Engineer                  0.165968    
+## job_titleData Analytics Lead                      4.31e-05 ***
+## job_titleData Analytics Manager                   0.092694 .  
+## job_titleData Analytics Specialist                0.849921    
+## job_titleData Architect                           0.019519 *  
+## job_titleData DevOps Engineer                     0.370923    
+## job_titleData Engineer                            0.032736 *  
+## job_titleData Infrastructure Engineer             0.006967 ** 
+## job_titleData Lead                                0.009213 ** 
+## job_titleData Management Specialist               0.257051    
+## job_titleData Manager                             0.248475    
+## job_titleData Modeler                             0.704545    
+## job_titleData Operations Analyst                  0.808386    
+## job_titleData Operations Engineer                 0.679808    
+## job_titleData Quality Analyst                     0.749850    
+## job_titleData Science Consultant                  0.177622    
+## job_titleData Science Engineer                    0.248443    
+## job_titleData Science Lead                        0.011224 *  
+## job_titleData Science Manager                     0.000265 ***
+## job_titleData Science Tech Lead                   3.88e-07 ***
+## job_titleData Scientist                           0.018651 *  
+## job_titleData Scientist Lead                      0.049088 *  
+## job_titleData Specialist                          0.346185    
+## job_titleData Strategist                          0.726663    
+## job_titleDeep Learning Engineer                   0.090205 .  
+## job_titleDeep Learning Researcher                 0.181765    
+## job_titleDirector of Data Science                 0.000441 ***
+## job_titleETL Developer                            0.082109 .  
+## job_titleETL Engineer                             0.311098    
+## job_titleFinance Data Analyst                     0.794611    
+## job_titleFinancial Data Analyst                   0.445932    
+## job_titleHead of Data                             0.000833 ***
+## job_titleHead of Data Science                     0.027800 *  
+## job_titleHead of Machine Learning                 0.474410    
+## job_titleInsight Analyst                          0.667047    
+## job_titleLead Data Analyst                        0.350379    
+## job_titleLead Data Engineer                       0.009547 ** 
+## job_titleLead Data Scientist                      0.011443 *  
+## job_titleLead Machine Learning Engineer           0.058234 .  
+## job_titleMachine Learning Developer               0.054587 .  
+## job_titleMachine Learning Engineer                0.004052 ** 
+## job_titleMachine Learning Infrastructure Engineer 0.004048 ** 
+## job_titleMachine Learning Manager                 0.040881 *  
+## job_titleMachine Learning Research Engineer       0.206007    
+## job_titleMachine Learning Researcher              0.070794 .  
+## job_titleMachine Learning Scientist               0.001100 ** 
+## job_titleMachine Learning Software Engineer       0.000153 ***
+## job_titleManager Data Management                  0.684237    
+## job_titleMarketing Data Analyst                   0.011893 *  
+## job_titleMarketing Data Engineer                  0.420144    
+## job_titleML Engineer                              0.003744 ** 
+## job_titleMLOps Engineer                           0.146544    
+## job_titleNLP Engineer                             0.006100 ** 
+## job_titlePower BI Developer                       0.298344    
+## job_titlePrincipal Data Analyst                   0.246614    
+## job_titlePrincipal Data Architect                 0.454878    
+## job_titlePrincipal Data Engineer                  0.023689 *  
+## job_titlePrincipal Data Scientist                 2.12e-05 ***
+## job_titlePrincipal Machine Learning Engineer      0.104705    
+## job_titleProduct Data Analyst                     0.185652    
+## job_titleProduct Data Scientist                   0.352655    
+## job_titleResearch Engineer                        0.002587 ** 
+## job_titleResearch Scientist                       0.000923 ***
+## job_titleSoftware Data Engineer                   0.883517    
+## job_titleStaff Data Analyst                       0.076697 .  
+## job_titleStaff Data Scientist                     0.853788    
+## salary_currencyBRL                                0.902872    
+## salary_currencyCAD                                0.826863    
+## salary_currencyCHF                                0.230741    
+## salary_currencyCLP                                0.331826    
+## salary_currencyCZK                                0.762090    
+## salary_currencyDKK                                0.858120    
+## salary_currencyEUR                                0.970776    
+## salary_currencyGBP                                0.576877    
+## salary_currencyHKD                                0.880014    
+## salary_currencyHUF                                0.950004    
+## salary_currencyILS                                6.82e-07 ***
+## salary_currencyINR                                0.635802    
+## salary_currencyJPY                                0.977976    
+## salary_currencyMXN                                0.980880    
+## salary_currencyPLN                                0.291211    
+## salary_currencySGD                                0.463118    
+## salary_currencyTHB                                0.672769    
+## salary_currencyTRY                                0.459891    
+## salary_currencyUSD                                0.289293    
+## employee_residenceAM                              0.532049    
+## employee_residenceAR                              0.579688    
+## employee_residenceAS                              0.859696    
+## employee_residenceAT                              0.635034    
+## employee_residenceAU                              0.486487    
+## employee_residenceBA                              0.811033    
+## employee_residenceBE                              0.268653    
+## employee_residenceBG                              0.593840    
+## employee_residenceBO                              0.262463    
+## employee_residenceBR                              0.561025    
+## employee_residenceCA                              0.087567 .  
+## employee_residenceCF                              0.855245    
+## employee_residenceCH                                    NA    
+## employee_residenceCL                              0.182657    
+## employee_residenceCN                              0.034030 *  
+## employee_residenceCO                              0.527338    
+## employee_residenceCR                              0.900306    
+## employee_residenceCY                              0.898472    
+## employee_residenceCZ                              0.470125    
+## employee_residenceDE                              0.151323    
+## employee_residenceDK                                    NA    
+## employee_residenceDO                              0.362736    
+## employee_residenceDZ                              0.467940    
+## employee_residenceEE                              0.540116    
+## employee_residenceEG                              0.108511    
+## employee_residenceES                              0.803902    
+## employee_residenceFI                              0.954346    
+## employee_residenceFR                              0.565744    
+## employee_residenceGB                              0.469599    
+## employee_residenceGH                              0.547297    
+## employee_residenceGR                              0.494352    
+## employee_residenceHK                              0.618231    
+## employee_residenceHN                              0.697997    
+## employee_residenceHR                              0.366607    
+## employee_residenceHU                                    NA    
+## employee_residenceID                              0.768042    
+## employee_residenceIE                              0.198701    
+## employee_residenceIL                                    NA    
+## employee_residenceIN                              0.705499    
+## employee_residenceIQ                              0.340348    
+## employee_residenceIR                              0.638952    
+## employee_residenceIT                              0.983443    
+## employee_residenceJE                              0.821439    
+## employee_residenceJP                              0.265159    
+## employee_residenceKE                              0.815067    
+## employee_residenceKW                              0.780940    
+## employee_residenceLT                              0.164272    
+## employee_residenceLU                              0.239642    
+## employee_residenceLV                              0.684569    
+## employee_residenceMA                              0.119414    
+## employee_residenceMD                              0.364806    
+## employee_residenceMK                              0.164646    
+## employee_residenceMT                              0.919180    
+## employee_residenceMX                              0.950732    
+## employee_residenceMY                              0.368603    
+## employee_residenceNG                              0.227369    
+## employee_residenceNL                              0.565158    
+## employee_residenceNZ                              0.758405    
+## employee_residencePH                              0.874719    
+## employee_residencePK                              0.531579    
+## employee_residencePL                              0.230359    
+## employee_residencePR                              0.105129    
+## employee_residencePT                              0.691680    
+## employee_residenceRO                              0.743852    
+## employee_residenceRS                              0.907292    
+## employee_residenceRU                              0.533713    
+## employee_residenceSE                              0.958578    
+## employee_residenceSG                              0.132636    
+## employee_residenceSI                              0.914104    
+## employee_residenceSK                              0.264076    
+## employee_residenceTH                              0.394565    
+## employee_residenceTN                              0.873055    
+## employee_residenceTR                              0.132533    
+## employee_residenceUA                              0.040545 *  
+## employee_residenceUS                              0.044507 *  
+## employee_residenceUZ                              0.867355    
+## employee_residenceVN                              0.211254    
+## company_sizeM                                     0.149860    
+## company_sizeS                                     0.000106 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 46530 on 3564 degrees of freedom
+## Multiple R-squared:  0.4831, Adjusted R-squared:  0.4556 
+## F-statistic: 17.53 on 190 and 3564 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: salary_in_usd
+##                      Df     Sum Sq    Mean Sq  F value    Pr(>F)    
+## work_year             1 7.7789e+11 7.7789e+11 359.3677 < 2.2e-16 ***
+## experience_level      3 2.5030e+12 8.3433e+11 385.4435 < 2.2e-16 ***
+## job_title            92 1.4143e+12 1.5372e+10   7.1017 < 2.2e-16 ***
+## salary_currency      19 1.8626e+12 9.8032e+10  45.2888 < 2.2e-16 ***
+## employee_residence   73 6.2087e+11 8.5051e+09   3.9292 < 2.2e-16 ***
+## company_size          2 3.2718e+10 1.6359e+10   7.5575 0.0005306 ***
+## Residuals          3564 7.7146e+12 2.1646e+09                       
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 91559.8
+\end{verbatim}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: salary_in_usd
+##                      Df     Sum Sq    Mean Sq  F value    Pr(>F)    
+## experience_level      3 2.9719e+12 9.9063e+11 456.6835 < 2.2e-16 ***
+## job_title            92 1.4613e+12 1.5883e+10   7.3223 < 2.2e-16 ***
+## salary_currency      19 2.0788e+12 1.0941e+11  50.4391 < 2.2e-16 ***
+## employee_residence   73 6.4552e+11 8.8427e+09   4.0765 < 2.2e-16 ***
+## company_size          2 3.5316e+10 1.7658e+10   8.1405  0.000297 ***
+## Residuals          3565 7.7331e+12 2.1692e+09                       
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 91566.8
+\end{verbatim}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Model 1: salary_in_usd ~ 1
+## Model 2: salary_in_usd ~ work_year + experience_level + employment_type + 
+##     job_title + salary_currency + employee_residence + remote_ratio + 
+##     company_location + company_size + work_abroad
+## Model 3: salary_in_usd ~ experience_level + job_title + salary_currency + 
+##     employee_residence + company_size
+## Model 4: salary_in_usd ~ work_year + experience_level + job_title + salary_currency + 
+##     employee_residence + company_size
+##   Res.Df        RSS  Df   Sum of Sq       F    Pr(>F)    
+## 1   3754 1.4926e+13                                      
+## 2   3520 7.6188e+12 234  7.3071e+12 14.4273 < 2.2e-16 ***
+## 3   3565 7.7331e+12 -45 -1.1432e+11  1.1737  0.199621    
+## 4   3564 7.7146e+12   1  1.8513e+10  8.5535  0.003471 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
 
 \end{document}

@@ -3,16 +3,16 @@ title: "Proyecto_final_DS_Salaries"
 author: "Juan Sebastian Oviedo Valencia"
 date: "`r Sys.Date()`"
 always_allow_html: true
+warning: FALSE
 output:
-  html_document: default
   pdf_document: default
-
+  html_document: default
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r librerias, include=FALSE}
+```{r librerias, include=FALSE,warning=FALSE}
 library(dplyr)
 library(ggplot2)
 library(readr)
@@ -23,72 +23,106 @@ lib_req<-c("MASS","visdat","corrplot","plotrix","cluster","factoextra", "FactoMi
 easypackages::packages(lib_req) 
 ```
 
+#Fuente de datos
+La base de datos utilizada contiene información de Salarios de puestos relacionados con cientificos de datos alrededor mundo, para, los datos son extraidos de una fuente de datas en kaggle [Data Science Salaries 2023] (https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023).
 
-#Datos extradisos de Kaggle: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
-experience_level has 4 Level:
-
-EN > Entry-level / Junior
-
-MI > Mid-level / Intermediate
-
-SE > Senior-level / Expert
-
-EX > Executive-level / Director
-
-employment_type has 4 types:
-
-PT > Part-time
-
-FT > Full-time
-
-CT > Contract
-
-FL > Freelance
+El fin de usar esta base de datos es tener una vision del mercado laboral mundial y las oportunidades que nos esperan en el futuro, a la vez poer medio de este contrar un modelo lineal que nos permita generar un modelo que prediga los datos de salarios.
 
 
-```{r}
+En los datos encontramos 11 Colunmnas:
+- "work_year", correspode al año donde se registro se obtuvo el registro.
+- "experience_level", corresponde al nivel de experiencia del trabajado. 
+- "employment_type",corresponde al tipo de contrato que tiene el trabajado.
+- "job_title", es el nombre del cargo del trabajador.
+- "salary", es el salario neto al año.
+- "salary_currency", corresponde a la moneda en la que se debenga el salario.
+- "salary_in_usd", es la conversión del salario a dolares estadounidenses
+- "employee_residence", es el país donde se encuentra el trabajador.
+- "remote_ratio", corresponde a la tasa de trabajo que se realiza en remoto
+- "company_location": es el país donde se encuentra la compañia que ofrece el trbajo.
+- "company_size", es el tamaño de la compañia que ofrece el trabajo
+
+##siglas usadas
+Algunas de lassiglas usadas en la fuente de datos son:
+
+**Clasificación del Profesional**
+
+-   EN: Entry-level / Junior.
+-   MI: Mid-level / Intermediate.
+-   SE: Senior-level / Expert.
+-   EX: Executive-level / Director.
+
+**Tipo de contrato**
+
+-   PT: Part-time
+-   FT: Full-time
+-   CT: Contract
+-   FL: Freelance
+
+**Tamaño de la compañia**
+
+-   L: Grande
+-   M: Mediana
+-   S: Pequeña
+
+```{r, warning=FALSE}
 #importamos el dataset
 data <- read.csv("D:/Documentos sebastian/Univalle/Métodos Cuantitativos/Proyecto final/ds_salaries.csv", stringsAsFactors=TRUE)
-summary(data) 
+summary(data)
 ```
+## **Resumen de los datos**
+
+Observamos que que tenemos 11 columnas, 3755 registros.
+
+Las columnas numericas son: años de experiencia, Salario
+
+Las variables categoricas son: nivel de experiecia, Tipo de contrato, Titulo del cargo, moneda, Residencia del empleado, Localizacion de la empresa y Tamaño de la empresa.
+
+##Análisis exploratorio
+###Análisis de inicial de los datos
 
 ```{r}
 unique(data$work_year)
 ```
-# como se identifica que no son numeros si no años los datos de la columna work_year se decide cambiar los valores a tipo factor
-```{r}
+Comenzando con la columana "work_year", se identifica que no son numeros si no años los datos de la columna, es por esto que  se decide convertirlo los valores a tipo factor
+```{r, warning=FALSE}
 data$work_year = factor(data$work_year)
 
 unique(data$remote_ratio)
 ```
-# En la columna remote_ratio tambien se trata de solo 3 datos para referirse al trabajo remoto se decide cambiar estos datos numericos por facort dejandoloasi:
-#remote = re = 100
-#hybrid = hy = 50
-#presential = pr = 0
+En la columna remote_ratio se identifica que tambien se trata de solo 3 datos para referirse al trabajo remoto, es por ello que se decide cambiar estos datos numericos por factor dejandolo asi:
 
-```{r}
+-   remote =\> re = 100
+-   hybrid =\> hy = 50
+-   presential =\> pr = 0
+
+```{r, warning=FALSE}
 
 data$remote_ratio[data$remote_ratio==100] <- 'RE'
 data$remote_ratio[data$remote_ratio==50] <- 'HY'
 data$remote_ratio[data$remote_ratio==0] <- 'PR'
 data$remote_ratio = factor(data$remote_ratio)
 
-#se decide eliminar la columna salary para trabajar con una moneda comun, sin embargo, se deja la columna salary_currency para verificar si existe alguna diferencia por el tipo de moneda en la que gana
-data = subset(data, select = -salary)
+```
+Se decide eliminar la columna salary para trabajar con una moneda comun, sin embargo, se deja la columna salary_currency para verificar si existe alguna diferencia por el tipo de moneda en la que gana
 
+```{r, warning=FALSE}
+data = subset(data, select = -salary)
 summary(data)
 ```
+
 #Verificamos si hay faltantes
-```{r}
+```{r, warning=FALSE}
 visdat::vis_miss(data)
 ```
-```{r agregar columana}
+
+```{r agregar columana, warning=FALSE}
 data['work_abroad'] <- ifelse(as.character(data$employee_residence) == as.character(data$company_location),FALSE,TRUE)
 data['work_abroad'] <- as.factor(data$work_abroad)
 ```
 
 
-```{r, fig.width= 10, fig.height=7}
+```{r, fig.width= 10, fig.height=7, warning=FALSE}
 bp <- ggplot(data,aes(y=salary_in_usd))+geom_boxplot()
 bp <- bp + scale_y_continuous(name="salary (USD)",labels = label_number(suffix = "K", scale = 1e-3),breaks = breaks_width(100000), limits=c(0, 460000))
 bp <- bp + labs(title = "Distribution on gross Salari paid")
@@ -139,12 +173,12 @@ figure
 
 ```
 
-```{r}
+```{r, warning=FALSE}
 Tabla <- data %>% group_by(job_title) %>% summarise(count = n()) %>% arrange(desc(count))
 wordcloud2(Tabla, size=5, color=brewer.pal(8, "Dark2"))
 ```
 
-```{r}
+```{r, warning=FALSE}
 Tabla_map1 <- data %>% group_by(employee_residence) %>% summarise(count = n())%>%
   arrange(desc(count))
 Tabla_map2 <- data %>% group_by(company_location) %>% summarise(count = n())%>%
@@ -152,7 +186,7 @@ Tabla_map2 <- data %>% group_by(company_location) %>% summarise(count = n())%>%
 mapa <- read.csv2("D:/Documentos sebastian/Univalle/Métodos Cuantitativos/Proyecto final/map_2022.csv", stringsAsFactors=TRUE, na.strings = "void")
 ```
 
-```{r, fig.width=4, fig.height=3}
+```{r, fig.width=4, fig.height=3, warning=FALSE}
 Tabla <- data %>% group_by(work_abroad) %>% summarise(count = n()) %>% arrange(desc(count))
 g_6<- ggplot(Tabla,aes(x=reorder(work_abroad, -count),y = count,fill=work_abroad))
 g_6 <- g_6 + geom_bar(stat="identity")
@@ -163,14 +197,14 @@ g_6 <- g_6 + geom_text(aes(label=count),vjust=-0.2, color="black", position = po
 g_6
 ```
 
-```{r}
+```{r, warning=FALSE}
 vars <- colnames(data[,-c(6)])
 catcorrm <- function(vars, data) sapply(vars, function(y) sapply(vars, function(x) assocstats(table(data[,x], data[,y]))$cramer))
 
 corrplot(catcorrm(vars, data[,-c(6)]), type = "upper", method = "ellipse",diag=FALSE)
 ```
 
-```{r}
+```{r, warning=FALSE}
 map1 <- left_join(mapa, Tabla_map1, by=c("ISO2"="employee_residence"))
 
 map <- ggplot(map1)
@@ -181,7 +215,7 @@ map <- map + labs(title = "Data workers concentration", subtitle = "Number of wo
 map_1 <- map + theme(text = element_text(color = "#22211d"), plot.background = element_rect(fill = "#f5f5f2", color = NA), panel.background = element_rect(fill = "#f5f5f2", color = NA), legend.background = element_rect(fill = "#f5f5f2", color = NA),  plot.title = element_text(size= 18, hjust=0.01, color = "#4e4d47", margin = margin(b = -0.1, t = 0.4, l = 2, unit = "cm")), plot.subtitle = element_text(size= 14, hjust=0.01, color = "#4e4d47", margin = margin(b = -0.1, t = 0.43, l = 2, unit = "cm")), legend.position = c(0.7, 0.09))
 ```
 
-```{r, fig.width= 12, fig.height=5}
+```{r, fig.width= 12, fig.height=5, warning=FALSE}
 map2 <- left_join(mapa, Tabla_map2, by=c("ISO2"="company_location"))
 
 map <- ggplot(map2)
@@ -195,7 +229,7 @@ ggarrange(map_1,map_2,ncol = 2, nrow = 1)
 ```
 
 
-```{r, fig.width=12, fig.height=8}
+```{r, fig.width=12, fig.height=8, warning=FALSE}
 bp <- ggplot(data,aes(x=work_year, y=salary_in_usd,fill=work_year))+geom_boxplot()
 bp <- bp + scale_y_continuous(name="salary (USD)",labels = label_number(suffix = "K", scale = 1e-3),breaks = breaks_width(100000), limits=c(0, 460000))
 bp <- bp + labs(title = "Distribution on gross Salari paid", subtitle = "Distribution on gross Salari paid per year worked")
@@ -230,7 +264,7 @@ bp_6 <- bp + theme(legend.position="none")
 ggarrange(bp_1,bp_2,bp_3,bp_4,bp_5,bp_6,ncol = 3, nrow = 2)
 ```
 
-```{r}
+```{r, warning=FALSE}
 Tabla_map3 <- data %>% group_by(company_location) %>% summarise(mean = mean(salary_in_usd),min = min(salary_in_usd),max = max(salary_in_usd))%>%arrange(desc(mean))
 
 map3 <- left_join(mapa, Tabla_map3, by=c("ISO2"="company_location"))
@@ -244,7 +278,7 @@ map_mean <- map + theme(text = element_text(color = "#22211d"), plot.background 
 
 ```
 
-```{r}
+```{r, warning=FALSE}
 map <- ggplot(map3)
 map <- map + aes(x=long, y=lat, group = as.factor(group),fill=min)
 map <- map + geom_polygon( linewidth=0, alpha=0.9) + theme_void()
@@ -253,7 +287,7 @@ map <- map + labs(title = "Minimum salary", subtitle = "Minimum salary by contri
 map_min <- map + theme(text = element_text(color = "#22211d"), plot.background = element_rect(fill = "#f5f5f2", color = NA), panel.background = element_rect(fill = "#f5f5f2", color = NA), legend.background = element_rect(fill = "#f5f5f2", color = NA),  plot.title = element_text(size= 18, hjust=0.01, color = "#4e4d47", margin = margin(b = -0.1, t = 0.4, l = 2, unit = "cm")), plot.subtitle = element_text(size= 14, hjust=0.01, color = "#4e4d47", margin = margin(b = -0.1, t = 0.43, l = 2, unit = "cm")), legend.position = c(0.7, 0.09))
 ```
 
-```{r, fig.width=12, fig.height=11}
+```{r, fig.width=12, fig.height=11, warning=FALSE}
 map <- ggplot(map3)
 map <- map + aes(x=long, y=lat, group = as.factor(group),fill=max)
 map <- map + geom_polygon( linewidth=0, alpha=0.9) + theme_void()
@@ -264,7 +298,7 @@ map_max <- map + theme(text = element_text(color = "#22211d"), plot.background =
 ggarrange(map_mean,map_min,map_max,ncol = 2, nrow = 2)
 ```
 
-```{r, fig.width= 8, fig.height=4}
+```{r, fig.width= 8, fig.height=4, warning=FALSE}
 bp <- ggplot(data,aes(x=work_year, y=salary_in_usd,fill=experience_level))+geom_boxplot()
 bp <- bp + scale_y_continuous(name="salary (USD)",labels = label_number(suffix = "K", scale = 1e-3),breaks = breaks_width(100000), limits=c(0, 460000))
 bp <- bp + labs(title = "Distribution on gross Salari paid")
@@ -275,7 +309,7 @@ bp
 #ggarrange(plotlist = graficos, nrow = 2, ncol = 3)
 ```
 
-```{r}
+```{r, warning=FALSE}
 # extraemos de nuevo los datos para no trabajr con factores
 data <- read.csv("D:/Documentos sebastian/Univalle/Métodos Cuantitativos/Proyecto final/ds_salaries.csv")
 data$remote_ratio[data$remote_ratio==100] <- 'RE'
@@ -283,9 +317,6 @@ data$remote_ratio[data$remote_ratio==50] <- 'HY'
 data$remote_ratio[data$remote_ratio==0] <- 'PR'
 data = subset(data, select = -salary)
 data['work_abroad'] <- ifelse(as.character(data$employee_residence) == as.character(data$company_location),FALSE,TRUE)
-
-summary(data)
-
 
 formula_sat = as.formula(salary_in_usd~.);    
 Model_sat = lm(formula_sat,data  = data)
@@ -299,29 +330,29 @@ Model_ASR=lm(salary_in_usd ~1+ work_year + experience_level + employment_type+ j
 ASR = olsrr::ols_step_all_possible(Model_ASR)
 ```
 
-```{r, fig.width= 10, fig.height=8}
-windows()
+```{r, fig.width= 10, fig.height=8, warning=FALSE}
 plot(ASR)
 ```
-```{r}
+
+```{r, warning=FALSE}
 ASR[176,]$predictors
 ASR[176,]$aic
 ASR[176,]$rsquare
 ASR[176,]$adjr
 ```
-```{r}
+```{r, warning=FALSE}
 ASR[387,]$predictors
 ASR[387,]$aic
 ASR[387,]$rsquare
 ASR[387,]$adjr
 ```
-```{r}
+```{r, warning=FALSE}
 ASR[56,]$predictors
 ASR[56,]$aic
 ASR[56,]$rsquare
 ASR[56,]$adjr
 ```
-```{r}
+```{r, warning=FALSE}
 formula_null = as.formula(salary_in_usd~1)
 Model_null = lm(formula_null,data  = data)
 
