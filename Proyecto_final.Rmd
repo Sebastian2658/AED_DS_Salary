@@ -2,10 +2,7 @@
 title: "Proyecto_final_DS_Salaries"
 author: "Juan Sebastian Oviedo Valencia"
 date: "`r Sys.Date()`"
-always_allow_html: true
-warning: FALSE
 output:
-  pdf_document: default
   html_document: default
 ---
 ```{r setup, include=FALSE}
@@ -23,13 +20,15 @@ lib_req<-c("MASS","visdat","corrplot","plotrix","cluster","factoextra", "FactoMi
 easypackages::packages(lib_req) 
 ```
 
-#Fuente de datos
+# Fuente de datos
+
 La base de datos utilizada contiene información de Salarios de puestos relacionados con cientificos de datos alrededor mundo, para, los datos son extraidos de una fuente de datas en kaggle [Data Science Salaries 2023] (https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023).
 
 El fin de usar esta base de datos es tener una vision del mercado laboral mundial y las oportunidades que nos esperan en el futuro, a la vez poer medio de este contrar un modelo lineal que nos permita generar un modelo que prediga los datos de salarios.
 
 
 En los datos encontramos 11 Colunmnas:
+
 - "work_year", correspode al año donde se registro se obtuvo el registro.
 - "experience_level", corresponde al nivel de experiencia del trabajado. 
 - "employment_type",corresponde al tipo de contrato que tiene el trabajado.
@@ -42,7 +41,8 @@ En los datos encontramos 11 Colunmnas:
 - "company_location": es el país donde se encuentra la compañia que ofrece el trbajo.
 - "company_size", es el tamaño de la compañia que ofrece el trabajo
 
-##siglas usadas
+## Siglas usadas
+
 Algunas de lassiglas usadas en la fuente de datos son:
 
 **Clasificación del Profesional**
@@ -78,8 +78,9 @@ Las columnas numericas son: años de experiencia, Salario
 
 Las variables categoricas son: nivel de experiecia, Tipo de contrato, Titulo del cargo, moneda, Residencia del empleado, Localizacion de la empresa y Tamaño de la empresa.
 
-##Análisis exploratorio
-###Análisis de inicial de los datos
+## Análisis exploratorio
+
+### Análisis de inicial de los datos
 
 ```{r}
 unique(data$work_year)
@@ -111,7 +112,7 @@ data = subset(data, select = -salary)
 summary(data)
 ```
 
-#Verificamos si hay faltantes
+# Verificamos si hay faltantes
 ```{r, warning=FALSE}
 visdat::vis_miss(data)
 ```
@@ -352,6 +353,7 @@ ASR[56,]$aic
 ASR[56,]$rsquare
 ASR[56,]$adjr
 ```
+
 ```{r, warning=FALSE}
 formula_null = as.formula(salary_in_usd~1)
 Model_null = lm(formula_null,data  = data)

@@ -65,7 +65,7 @@
 
 \title{Proyecto\_final\_DS\_Salaries}
 \author{Juan Sebastian Oviedo Valencia}
-\date{2023-06-05}
+\date{2023-06-06}
 
 \begin{document}
 \maketitle
@@ -184,29 +184,37 @@ Las variables categoricas son: nivel de experiecia, Tipo de contrato,
 Titulo del cargo, moneda, Residencia del empleado, Localizacion de la
 empresa y Tamaño de la empresa.
 
-\#\#Análisis exploratorio
+\#\#Análisis exploratorio \#\#\#Análisis de inicial de los datos
 
 \begin{verbatim}
 ## [1] 2023 2022 2020 2021
 \end{verbatim}
 
 Comenzando con la columana ``work\_year'', se identifica que no son
-numeros si no años los datos de la columna work\_year se decide cambiar
-los valores a tipo factor \# como se identifica que no son numeros si no
-años los datos de la columna work\_year se decide cambiar los valores a
-tipo factor
+numeros si no años los datos de la columna, es por esto que se decide
+convertirlo los valores a tipo factor
 
 \begin{verbatim}
 ## [1] 100   0  50
 \end{verbatim}
 
-\hypertarget{en-la-columna-remote_ratio-tambien-se-trata-de-solo-3-datos-para-referirse-al-trabajo-remoto-se-decide-cambiar-estos-datos-numericos-por-facort-dejandoloasi}{%
-\section{En la columna remote\_ratio tambien se trata de solo 3 datos
-para referirse al trabajo remoto se decide cambiar estos datos numericos
-por facort
-dejandoloasi:}\label{en-la-columna-remote_ratio-tambien-se-trata-de-solo-3-datos-para-referirse-al-trabajo-remoto-se-decide-cambiar-estos-datos-numericos-por-facort-dejandoloasi}}
+En la columna remote\_ratio se identifica que tambien se trata de solo 3
+datos para referirse al trabajo remoto, es por ello que se decide
+cambiar estos datos numericos por factor dejandolo asi:
 
-\#remote = re = 100 \#hybrid = hy = 50 \#presential = pr = 0
+\begin{itemize}
+\tightlist
+\item
+  remote =\textgreater{} re = 100
+\item
+  hybrid =\textgreater{} hy = 50
+\item
+  presential =\textgreater{} pr = 0
+\end{itemize}
+
+Se decide eliminar la columna salary para trabajar con una moneda comun,
+sin embargo, se deja la columna salary\_currency para verificar si
+existe alguna diferencia por el tipo de moneda en la que gana
 
 \begin{verbatim}
 ##  work_year   experience_level employment_type                     job_title   
@@ -236,45 +244,21 @@ dejandoloasi:}\label{en-la-columna-remote_ratio-tambien-se-trata-de-solo-3-datos
 \end{verbatim}
 
 \#Verificamos si hay faltantes
-\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-5-1.pdf}
-
 \includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-6-1.pdf}
 
-\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-9-1.pdf}
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-7-1.pdf}
 
 \includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-10-1.pdf}
 
-\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-12-1.pdf}
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-11-1.pdf}
 
 \includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-13-1.pdf}
 
-\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-16-1.pdf}
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-14-1.pdf}
 
 \includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-17-1.pdf}
 
-\begin{verbatim}
-##    work_year    experience_level   employment_type     job_title        
-##  Min.   :2020   Length:3755        Length:3755        Length:3755       
-##  1st Qu.:2022   Class :character   Class :character   Class :character  
-##  Median :2022   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :2022                                                           
-##  3rd Qu.:2023                                                           
-##  Max.   :2023                                                           
-##  salary_currency    salary_in_usd    employee_residence remote_ratio      
-##  Length:3755        Min.   :  5132   Length:3755        Length:3755       
-##  Class :character   1st Qu.: 95000   Class :character   Class :character  
-##  Mode  :character   Median :135000   Mode  :character   Mode  :character  
-##                     Mean   :137570                                        
-##                     3rd Qu.:175000                                        
-##                     Max.   :450000                                        
-##  company_location   company_size       work_abroad    
-##  Length:3755        Length:3755        Mode :logical  
-##  Class :character   Class :character   FALSE:3659     
-##  Mode  :character   Mode  :character   TRUE :96       
-##                                                       
-##                                                       
-## 
-\end{verbatim}
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-18-1.pdf}
 
 \begin{verbatim}
 ## 
@@ -864,8 +848,8 @@ dejandoloasi:}\label{en-la-columna-remote_ratio-tambien-se-trata-de-solo-3-datos
 ## [1] 91600.88
 \end{verbatim}
 
-\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-19-1.pdf}
-\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-19-2.pdf}
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-20-1.pdf}
+\includegraphics{Proyecto_final_files/figure-latex/unnamed-chunk-20-2.pdf}
 
 \begin{verbatim}
 ## [1] "experience_level job_title salary_currency employee_residence"
